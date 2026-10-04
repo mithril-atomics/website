@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+---
+
+<BaseLayout title="Page not found" noindex={true}>
+  <Section
+    heading="That page does not exist"
+    lede="The address may be mistyped, or the page may have moved."
+    width="content"
+  >
+    <Button href="/">Return home</Button>
+  </Section>
+</BaseLayout>

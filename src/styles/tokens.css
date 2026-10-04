@@ -1,0 +1,212 @@
+/* =============================================================================
+   Mithril Atomics — design tokens
+   Derived from Brand Guidelines v2.0 (brand/Brand_design_guidelines.pdf).
+
+   Every value a component uses comes from this file. If a hex, size or space
+   appears anywhere else in src/, it is a bug.
+
+   DEVIATION FROM THE PDF, APPROVED BY THE FOUNDER (Oct 2026):
+   the guidelines reserve Steel blue for the single dot on the icon. On the
+   website it is promoted to the interactive / accent role (links, buttons,
+   rules, eyebrows). The ramp below keeps the brand hue (206.8deg) and
+   saturation (0.407) at every step, so nothing drifts off-palette.
+
+   NOT DEVIATED FROM: Signal red stays locked to the wordmark's "O". It is
+   declared here only so the logo renders. Do not reference it in any component.
+   ============================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. BRAND CONSTANTS — the six colours named in the guidelines.
+     Never edit these. Build new values as ramp steps, not new hexes.
+     --------------------------------------------------------------------- */
+  --brand-graphite:    #0E1013;  /* primary ink on light backgrounds       */
+  --brand-platinum:    #C7CCD1;  /* primary ink on dark backgrounds        */
+  --brand-steel-blue:  #365F80;  /* accent                                 */
+  --brand-signal-red:  #963939;  /* LOCKED: wordmark "O" only              */
+  --brand-off-white:   #F5F6F7;  /* light ground                           */
+  --brand-muted-grey:  #5B6570;  /* secondary / supporting text            */
+
+  /* ---------------------------------------------------------------------
+     2. RAMPS — generated from the brand hues, contrast-verified.
+     The number in the comment is the WCAG ratio against the surface noted.
+     --------------------------------------------------------------------- */
+
+  /* Steel — hsl(206.8, 40.7%, L) */
+  --steel-950: #0C151D;
+  --steel-900: #152532;
+  --steel-800: #20384B;
+  --steel-700: #2A4B64;  /* 8.48:1 on off-white — link hover / pressed     */
+  --steel-600: #305573;  /* 7.26:1 on off-white                            */
+  --steel-500: #365F80;  /* 6.25:1 on off-white — BRAND. links, buttons    */
+  --steel-400: #4478A1;  /* 4.36:1 on off-white — large text only          */
+  --steel-300: #7AA5C7;  /* 7.29:1 on graphite — accent ON DARK            */
+  --steel-200: #B0C9DE;  /* rules and dividers on dark                     */
+  --steel-100: #DBE7F0;  /* accent surface tint                            */
+  --steel-050: #EFF4F8;  /* faintest accent wash                           */
+
+  /* Neutral — hsl(211.4, 10.3%, L), anchored on Muted grey */
+  --ink-950: #0D0E0F;
+  --ink-900: #17191C;
+  --ink-800: #25292D;
+  --ink-700: #3B4249;  /*  9.41:1 on off-white                             */
+  --ink-600: #4B545D;  /*  7.12:1 on off-white                             */
+  --ink-500: #5B6570;  /*  5.48:1 on off-white — BRAND muted grey          */
+  --ink-400: #788491;  /*  5.00:1 on graphite — muted text ON DARK         */
+  --ink-300: #A5ADB6;
+  --ink-200: #D5D9DD;  /* hairlines and borders on light                   */
+  --ink-150: #E7E9EC;
+  --ink-100: #F0F1F2;
+  --ink-050: #F6F7F7;
+
+  /* ---------------------------------------------------------------------
+     3. SEMANTIC ROLES — light surface (the site default).
+     Components reference ONLY these, never the ramps above.
+     --------------------------------------------------------------------- */
+  --surface:          var(--brand-off-white);
+  --surface-raised:   #FFFFFF;
+  --surface-sunken:   var(--ink-100);
+  --surface-accent:   var(--steel-050);
+  --surface-inverse:  var(--brand-graphite);
+
+  --ink:              var(--brand-graphite);   /* 17.6:1 — headings, body  */
+  --ink-muted:        var(--ink-500);          /*  5.5:1 — captions, meta  */
+  --ink-on-accent:    #FFFFFF;                 /*  6.8:1 on --accent       */
+
+  --accent:           var(--steel-500);
+  --accent-hover:     var(--steel-700);
+  --accent-quiet:     var(--steel-100);        /* tinted blocks            */
+  --accent-rule:      var(--steel-400);        /* the short brand rule     */
+
+  --line:             var(--ink-200);          /* default hairline         */
+  --line-strong:      var(--ink-300);
+  --line-accent:      var(--steel-200);
+
+  --focus-ring:       var(--steel-500);
+
+  /* ---------------------------------------------------------------------
+     4. TYPOGRAPHY — IBM Plex Sans, two weights (Regular 400, Medium 500 /
+     Bold 700 for headings). Light and Thin are forbidden by the guidelines.
+     --------------------------------------------------------------------- */
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system,
+               'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'IBM Plex Sans', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+
+  /* Fluid scale, 1.200 minor third at the small end opening to 1.250.
+     clamp(min, preferred, max) — never a bare vw unit. */
+  --text-caption:  0.8125rem;                                 /* 13px      */
+  --text-sm:       0.875rem;                                  /* 14px      */
+  --text-base:     clamp(1rem,      0.98rem + 0.10vw, 1.0625rem);
+  --text-lg:       clamp(1.125rem,  1.09rem + 0.18vw, 1.25rem);
+  --text-xl:       clamp(1.3125rem, 1.24rem + 0.36vw, 1.5rem);
+  --text-2xl:      clamp(1.5rem,    1.38rem + 0.60vw, 1.875rem);
+  --text-3xl:      clamp(1.875rem,  1.66rem + 1.05vw, 2.5rem);
+  --text-4xl:      clamp(2.25rem,   1.86rem + 1.95vw, 3.5rem);
+  --text-5xl:      clamp(2.625rem,  1.95rem + 3.38vw, 4.5rem);
+
+  --leading-tight:  1.1;
+  --leading-snug:   1.25;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.7;
+
+  /* Headlines carry generous tracking; body is tightly kerned (guidelines p.05) */
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.01em;
+  --tracking-body:     0em;
+  --tracking-label:    0.08em;   /* full caps, short labels only            */
+
+  /* 60–75 characters per line (guidelines p.05) */
+  --measure:       68ch;
+  --measure-tight: 56ch;
+
+  /* ---------------------------------------------------------------------
+     5. SPACE — 4px base, geometric above 16px.
+     --------------------------------------------------------------------- */
+  --space-3xs: 0.25rem;   /*  4px */
+  --space-2xs: 0.5rem;    /*  8px */
+  --space-xs:  0.75rem;   /* 12px */
+  --space-sm:  1rem;      /* 16px */
+  --space-md:  1.5rem;    /* 24px */
+  --space-lg:  2rem;      /* 32px */
+  --space-xl:  3rem;      /* 48px */
+  --space-2xl: 4rem;      /* 64px */
+  --space-3xl: 6rem;      /* 96px */
+  --space-4xl: 8rem;      /* 128px */
+
+  --section-y: clamp(var(--space-2xl), 6vw, var(--space-4xl));
+  --gutter:    clamp(var(--space-sm), 4vw, var(--space-xl));
+
+  /* ---------------------------------------------------------------------
+     6. LAYOUT
+     --------------------------------------------------------------------- */
+  --width-full:    80rem;   /* 1280px — page frame      */
+  --width-wide:    68rem;   /* 1088px — wide content    */
+  --width-content: 48rem;   /*  768px — prose column    */
+  --width-narrow:  36rem;   /*  576px — forms, asides   */
+
+  /* ---------------------------------------------------------------------
+     7. SHAPE — the guidelines forbid drop shadows, glows and gradients.
+     Depth is expressed with hairlines and surface tone only.
+     --------------------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-sm:   2px;
+  --radius-md:   3px;
+  --radius-lg:   4px;
+  --radius-pill: 999px;
+
+  --border-hair: 1px;
+  --border-rule: 2px;
+
+  /* ---------------------------------------------------------------------
+     8. MOTION — restrained. Nothing bounces, nothing glows.
+     --------------------------------------------------------------------- */
+  --ease:       cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 360ms;
+
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-header: 200;
+  --z-overlay: 300;
+}
+
+/* -----------------------------------------------------------------------------
+   INVERSE SURFACE
+   Put [data-surface="inverse"] on any section that sits on Graphite. Every
+   semantic role flips; components need no dark-specific CSS of their own.
+   The logo component reads this attribute to swap its ink variant.
+   -------------------------------------------------------------------------- */
+[data-surface='inverse'] {
+  --surface:        var(--brand-graphite);
+  --surface-raised: var(--ink-900);
+  --surface-sunken: var(--ink-950);
+  --surface-accent: var(--steel-950);
+
+  --ink:            var(--brand-platinum);  /* 11.8:1 on graphite */
+  --ink-muted:      var(--ink-400);         /*  5.0:1 on graphite */
+  --ink-on-accent:  var(--brand-graphite);
+
+  --accent:         var(--steel-300);       /*  7.3:1 on graphite */
+  --accent-hover:   var(--steel-200);
+  --accent-quiet:   var(--steel-900);
+  --accent-rule:    var(--steel-300);
+
+  --line:           var(--ink-800);
+  --line-strong:    var(--ink-700);
+  --line-accent:    var(--steel-800);
+
+  --focus-ring:     var(--steel-300);
+
+  color: var(--ink);
+  background-color: var(--surface);
+}
+
+/* A quiet tinted band — still a light surface, roles unchanged except ground. */
+[data-surface='accent'] { --surface: var(--surface-accent); background-color: var(--surface); }
+[data-surface='raised'] { --surface: var(--surface-raised); background-color: var(--surface); }

@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import Button from '@components/Button.astro';
+import { pages } from '@content/site';
+
+const page = pages.home;
+---
+
+<BaseLayout description={page.description}>
+  <section class="hero">
+    <div class="wrap wrap--wide">
+      <span class="rule" aria-hidden="true"></span>
+      <h1>{page.hero.heading}</h1>
+      <p class="lede">{page.hero.lede}</p>
+      {page.hero.cta && (
+        <p class="hero__cta">
+          <Button href={page.hero.cta.href}>{page.hero.cta.label}</Button>
+        </p>
+      )}
+    </div>
+  </section>
+
+  {page.sections.map((s, i) => (
+    <Section
+      label={s.label}
+      heading={s.heading}
+      lede={s.lede}
+      surface={i % 2 === 1 ? 'accent' : 'default'}
+    />
+  ))}
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(var(--space-2xl), 10vw, var(--space-4xl)); }
+  .hero .rule { margin-bottom: var(--space-md); }
+  .hero h1 { font-size: var(--text-5xl); max-width: 18ch; }
+  .hero .lede { margin-top: var(--space-md); }
+  .hero__cta { margin-top: var(--space-xl); }
+</style>

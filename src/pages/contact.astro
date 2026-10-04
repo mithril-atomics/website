@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import { pages, company } from '@content/site';
+
+const page = pages.contact;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Section heading={page.hero.heading} lede={page.hero.lede} width="content" class="page-hero">
+    <dl class="contact">
+      <dt class="label">Email</dt>
+      <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+
+      {company.address && (
+        <Fragment>
+          <dt class="label">Registered office</dt>
+          <dd>{company.address}</dd>
+        </Fragment>
+      )}
+
+      {company.linkedin && (
+        <Fragment>
+          <dt class="label">LinkedIn</dt>
+          <dd><a href={company.linkedin}>{company.name}</a></dd>
+        </Fragment>
+      )}
+    </dl>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contact { display: grid; gap: var(--space-lg); margin: 0; }
+  .contact dt { margin-bottom: var(--space-3xs); }
+  .contact dd { margin: 0; font-size: var(--text-lg); }
+</style>

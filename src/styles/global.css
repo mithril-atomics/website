@@ -1,0 +1,190 @@
+@import './reset.css';
+@import './fonts.css';
+@import './tokens.css';
+
+/* =============================================================================
+   BASE
+   ============================================================================= */
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-body);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1 0 auto; }
+
+/* =============================================================================
+   TYPE
+   Sentence case everywhere. Full caps only on .label, always with tracking.
+   ============================================================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+h1 { font-size: var(--text-4xl); letter-spacing: var(--tracking-display); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-xl);  line-height: var(--leading-snug); }
+h4 { font-size: var(--text-lg);  font-weight: var(--weight-medium); line-height: var(--leading-snug); }
+h5, h6 { font-size: var(--text-base); font-weight: var(--weight-medium); }
+
+p { text-wrap: pretty; }
+
+strong, b { font-weight: var(--weight-medium); }
+
+small { font-size: var(--text-caption); }
+
+code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+
+hr {
+  border: 0;
+  border-top: var(--border-hair) solid var(--line);
+  margin-block: var(--space-xl);
+}
+
+/* =============================================================================
+   LINKS
+   ============================================================================= */
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color var(--duration-fast) var(--ease);
+}
+
+a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
+
+/* =============================================================================
+   FOCUS — one visible treatment everywhere. Never removed.
+   ============================================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) { outline: none; }
+
+/* =============================================================================
+   LAYOUT PRIMITIVES
+   ============================================================================= */
+
+.wrap {
+  width: 100%;
+  max-width: var(--width-full);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.wrap--wide    { max-width: var(--width-wide); }
+.wrap--content { max-width: var(--width-content); }
+.wrap--narrow  { max-width: var(--width-narrow); }
+
+.prose { max-width: var(--measure); }
+.prose > * + * { margin-top: var(--space-md); }
+.prose h2 { margin-top: var(--space-xl); }
+.prose h3 { margin-top: var(--space-lg); }
+
+.stack        > * + * { margin-top: var(--space-md); }
+.stack-sm     > * + * { margin-top: var(--space-sm); }
+.stack-lg     > * + * { margin-top: var(--space-lg); }
+
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+/* =============================================================================
+   BRAND UTILITIES
+   ============================================================================= */
+
+/* The short rule that opens every section in the guidelines. */
+.rule {
+  display: block;
+  inline-size: 3rem;
+  block-size: var(--border-rule);
+  background-color: var(--accent-rule);
+  border: 0;
+  margin: 0;
+}
+
+/* Short, full-caps label. The ONLY place caps are permitted. */
+.label {
+  font-size: var(--text-caption);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.muted { color: var(--ink-muted); }
+
+.lede {
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-muted);
+  max-width: var(--measure);
+}
+
+.caption {
+  font-size: var(--text-caption);
+  line-height: var(--leading-normal);
+  color: var(--ink-muted);
+}
+
+/* Screen-reader only, but focusable (used by the skip link). */
+.visually-hidden:not(:focus):not(:active) {
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* =============================================================================
+   PRINT — Graphite on white, per the guidelines' print role.
+   ============================================================================= */
+
+@media print {
+  :root { --surface: #FFFFFF; --ink: #0E1013; --accent: #0E1013; }
+  body { font-size: 11pt; }
+  a::after { content: ' (' attr(href) ')'; font-size: 9pt; color: var(--ink-muted); }
+  .site-header, .site-footer nav { display: none; }
+}

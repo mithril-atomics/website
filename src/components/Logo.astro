@@ -1,0 +1,67 @@
+---
+/**
+ * The Mithril Atomics mark.
+ *
+ * Brand rules enforced here (guidelines p.03, p.06):
+ *  - icon and wordmark are always used together unless `variant="mark"`
+ *  - the ink variant MUST match the background; `ink` is explicit, never guessed
+ *  - the mark is never recoloured, rotated, distorted or given effects
+ *  - clear space equal to the wordmark height is reserved around it
+ *  - minimum legible lockup height is 40px (measured); below that use the mark
+ */
+import lockupGraphite from '@assets/logo/Light_BG_Coloured.svg';
+import lockupPlatinum from '@assets/logo/Dark_BG_Coloured.svg';
+import markGraphite   from '@assets/logo/Light_BG_Coloured_Graphics_Small.svg';
+import markPlatinum   from '@assets/logo/Dark_BG_Coloured_Graphics_Small.svg';
+
+interface Props {
+  /** Ink variant. Must match the surface it sits on. */
+  ink?: 'graphite' | 'platinum';
+  /** Full lockup (icon + wordmark) or icon only. */
+  variant?: 'lockup' | 'mark';
+  /** Rendered height in px. Lockup minimum 40. */
+  height?: number;
+  /** Accessible name. Empty string marks it decorative. */
+  label?: string;
+  class?: string;
+}
+
+const {
+  ink = 'graphite',
+  variant = 'lockup',
+  height = 44,
+  label = 'Mithril Atomics',
+  class: className,
+} = Astro.props;
+
+const asset =
+  variant === 'mark'
+    ? ink === 'platinum' ? markPlatinum : markGraphite
+    : ink === 'platinum' ? lockupPlatinum : lockupGraphite;
+
+const width = Math.round((asset.width / asset.height) * height);
+
+if (import.meta.env.DEV && variant === 'lockup' && height < 40) {
+  console.warn(`[brand] Logo lockup at ${height}px is below the 40px legible minimum — use variant="mark".`);
+}
+---
+
+<img
+  src={asset.src}
+  width={width}
+  height={height}
+  alt={label}
+  role={label === '' ? 'presentation' : undefined}
+  class:list={['logo', className]}
+  style={`height:${height}px;width:${width}px`}
+  loading="eager"
+  decoding="sync"
+/>
+
+<style>
+  .logo {
+    display: block;
+    /* clear space == wordmark height; the guidelines' minimum */
+    flex: none;
+  }
+</style>

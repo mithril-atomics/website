@@ -1,0 +1,109 @@
+---
+import Logo from './Logo.astro';
+import { nav, company } from '@content/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="site-header">
+  <a class="visually-hidden skip" href="#main">Skip to content</a>
+  <div class="wrap site-header__inner">
+    <a href="/" class="site-header__home" aria-label={`${company.name} — home`}>
+      <Logo ink="graphite" height={44} label="" />
+    </a>
+
+    <nav aria-label="Primary">
+      <ul role="list" class="site-nav">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={path === item.href ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background-color: var(--surface);
+    border-bottom: var(--border-hair) solid var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    min-height: 76px;
+    padding-block: var(--space-2xs);
+  }
+
+  .site-header__home {
+    display: inline-flex;
+    text-decoration: none;
+    padding: var(--space-3xs);
+    margin: calc(var(--space-3xs) * -1);
+  }
+
+  .skip {
+    position: absolute;
+    inset-inline-start: var(--space-sm);
+    inset-block-start: var(--space-sm);
+    z-index: var(--z-overlay);
+    background-color: var(--surface-raised);
+    color: var(--ink);
+    padding: var(--space-2xs) var(--space-sm);
+    border: var(--border-hair) solid var(--accent);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(var(--space-sm), 2.5vw, var(--space-lg));
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    border-bottom: var(--border-rule) solid transparent;
+    transition: color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
+  }
+
+  .site-nav a:hover { color: var(--accent); }
+
+  .site-nav a[aria-current='page'] {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Phone: the nav wraps under the logo rather than collapsing behind a toggle.
+     Five items fit on one line down to 360px, so no JS is needed. */
+  @media (max-width: 40rem) {
+    .site-header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2xs);
+      padding-block: var(--space-sm);
+    }
+    .site-nav { flex-wrap: wrap; gap: var(--space-sm); }
+    .site-nav a { min-height: 40px; }
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+/**
+ * One band of the page. Owns its vertical rhythm and its surface.
+ * Set `surface` to flip every colour role for the band (see tokens.css).
+ */
+interface Props {
+  surface?: 'default' | 'raised' | 'accent' | 'inverse';
+  width?: 'full' | 'wide' | 'content' | 'narrow';
+  label?: string;
+  heading?: string;
+  lede?: string;
+  headingLevel?: 2 | 3;
+  id?: string;
+  class?: string;
+}
+
+const {
+  surface = 'default',
+  width = 'wide',
+  label,
+  heading,
+  lede,
+  headingLevel = 2,
+  id,
+  class: className,
+} = Astro.props;
+
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const wrapClass = width === 'full' ? 'wrap' : `wrap wrap--${width}`;
+---
+
+<section
+  id={id}
+  data-surface={surface === 'default' ? undefined : surface}
+  class:list={['section', className]}
+>
+  <div class={wrapClass}>
+    {(label || heading || lede) && (
+      <header class="section__head">
+        <span class="rule" aria-hidden="true"></span>
+        {label && <p class="label">{label}</p>}
+        {heading && <Heading class="section__heading">{heading}</Heading>}
+        {lede && <p class="lede">{lede}</p>}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section { padding-block: var(--section-y); }
+
+  .section__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    max-width: var(--measure);
+  }
+
+  .section__head .rule { margin-bottom: var(--space-2xs); }
+  .section__head .label { margin: 0; }
+  .section__heading { margin: 0; }
+  .section__head .lede { margin: 0; }
+</style>

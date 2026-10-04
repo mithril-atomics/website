@@ -1,0 +1,85 @@
+---
+import Logo from './Logo.astro';
+import { company, nav, footer } from '@content/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" data-surface="inverse">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__brand">
+      <Logo ink="platinum" height={48} label="" />
+      <p class="caption">{footer.note}</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul role="list" class="site-footer__links">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-footer__contact">
+      <p class="label">Contact</p>
+      <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
+      {company.linkedin && <p><a href={company.linkedin}>LinkedIn</a></p>}
+    </div>
+  </div>
+
+  <div class="wrap site-footer__legal">
+    <p class="caption">{footer.copyright(year)}</p>
+    <ul role="list" class="site-footer__legal-links">
+      {footer.links.map((l) => (
+        <li><a href={l.href}>{l.label}</a></li>
+      ))}
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    padding-top: var(--section-y);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    padding-bottom: var(--space-2xl);
+  }
+
+  .site-footer__brand { display: flex; flex-direction: column; gap: var(--space-md); }
+  .site-footer__brand .caption { max-width: 28ch; }
+
+  .site-footer__links,
+  .site-footer__legal-links {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer__links { flex-direction: column; gap: var(--space-2xs); }
+  .site-footer__legal-links { gap: var(--space-md); }
+
+  .site-footer a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: var(--text-sm);
+  }
+  .site-footer a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 0.2em; }
+
+  .site-footer__contact { display: flex; flex-direction: column; gap: var(--space-2xs); }
+  .site-footer__contact p { margin: 0; }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+    border-top: var(--border-hair) solid var(--line);
+  }
+</style>

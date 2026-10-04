@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import { pages } from '@content/site';
+
+const page = pages.platform;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Section heading={page.hero.heading} lede={page.hero.lede} headingLevel={2} class="page-hero" />
+  {page.sections.map((s, i) => (
+    <Section
+      label={s.label}
+      heading={s.heading}
+      lede={s.lede}
+      surface={i % 2 === 0 ? 'accent' : 'default'}
+      headingLevel={3}
+    />
+  ))}
+</BaseLayout>

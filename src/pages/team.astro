@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Section from '@components/Section.astro';
+import { pages, leadership, advisors } from '@content/site';
+
+const page = pages.team;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Section heading={page.hero.heading} lede={page.hero.lede} class="page-hero" />
+
+  <Section label="Leadership" heading="Team" headingLevel={3}>
+    <ul role="list" class="grid people">
+      {leadership.map((p) => (
+        <li class="person">
+          <h4>{p.name}</h4>
+          <p class="caption">{p.role}</p>
+          {p.bio && <p class="muted">{p.bio}</p>}
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section label="Advisors" heading="Advisory board" headingLevel={3} surface="accent">
+    <ul role="list" class="grid people">
+      {advisors.map((p) => (
+        <li class="person">
+          <h4>{p.name}</h4>
+          <p class="caption">{p.role}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+</BaseLayout>
+
+<style>
+  .people { gap: var(--space-xl) var(--space-lg); }
+  .person { border-top: var(--border-rule) solid var(--line-accent); padding-top: var(--space-sm); }
+  .person h4 { margin-bottom: var(--space-3xs); }
+  .person p { margin: 0; }
+  .person .muted { margin-top: var(--space-2xs); }
+</style>
