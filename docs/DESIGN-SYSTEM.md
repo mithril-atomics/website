@@ -214,7 +214,10 @@ directional lighting. **No** neon circuitry, holograms or outer-space backdrops.
 
 ## 9. Checklist before any merge
 
-- [ ] No raw hex outside `tokens.css`
+- [ ] No raw hex outside `tokens.css` — three sanctioned exceptions only:
+      the two `<meta name="theme-color">` tags in `BaseLayout.astro` (meta
+      content cannot read a CSS variable) and the `@media print` override in
+      `global.css`
 - [ ] No `--brand-signal-red` outside the logo
 - [ ] No `box-shadow`, `filter: drop-shadow`, or `linear-gradient`
 - [ ] No Light/Thin font weights
