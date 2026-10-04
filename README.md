@@ -7,6 +7,12 @@ Ships **zero client-side JavaScript**. Every page is plain HTML on the wire.
 
 ---
 
+## Project status
+
+**[`PROJECT_STATUS.md`](PROJECT_STATUS.md)** is the current state of play —
+what is built, what is decided and why, what is blocking a deploy, and the open
+questions. Read it before picking up work; update it when you put work down.
+
 ## Quick start
 
 ```bash
