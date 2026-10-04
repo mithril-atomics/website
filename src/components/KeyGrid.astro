@@ -1,0 +1,83 @@
+---
+/**
+ * A grid of capability cards: short caps key + body.
+ * Numbered when `numbered`, which also tells assistive tech it is ordered.
+ */
+interface Props {
+  items: { key: string; body: string }[];
+  numbered?: boolean;
+  columns?: 2 | 4;
+}
+const { items, numbered = false, columns = 2 } = Astro.props;
+const Tag = numbered ? 'ol' : 'ul';
+---
+
+<Tag role="list" class:list={['keygrid', `keygrid--${columns}`]}>
+  {items.map((item, i) => (
+    <li class="keygrid__item">
+      {numbered && <span class="keygrid__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>}
+      <h3 class="keygrid__key">{item.key}</h3>
+      <p class="keygrid__body">{item.body}</p>
+    </li>
+  ))}
+</Tag>
+
+<style>
+  .keygrid {
+    display: grid;
+    gap: var(--border-hair);
+    margin: 0;
+    padding: 0;
+    background-color: var(--line);
+    border: var(--border-hair) solid var(--line);
+  }
+
+  /* Hairline grid: the gap IS the rule. No borders on children, no shadows.
+     Column counts are explicit, not auto-fit: auto-fit can land 4 items in a
+     3-column track and leave the grid's own background showing as dead cells. */
+  .keygrid--2 { grid-template-columns: 1fr; }
+  .keygrid--4 { grid-template-columns: 1fr; }
+
+  @media (min-width: 36rem) {
+    .keygrid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 48rem) {
+    .keygrid--2 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 64rem) {
+    .keygrid--4 { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .keygrid__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-lg);
+    background-color: var(--surface);
+  }
+
+  .keygrid__num {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .keygrid__key {
+    margin: 0;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .keygrid__body {
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--ink);
+  }
+</style>

@@ -1,40 +1,140 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import Button from '@components/Button.astro';
-import { pages } from '@content/site';
-
-const page = pages.home;
+import KeyGrid from '@components/KeyGrid.astro';
+import Pullquote from '@components/Pullquote.astro';
+import Cta from '@components/Cta.astro';
+import { home } from '@content/site';
 ---
 
-<BaseLayout description={page.description}>
+<BaseLayout description={home.description}>
   <section class="hero">
     <div class="wrap wrap--wide">
       <span class="rule" aria-hidden="true"></span>
-      <h1>{page.hero.heading}</h1>
-      <p class="lede">{page.hero.lede}</p>
-      {page.hero.cta && (
-        <p class="hero__cta">
-          <Button href={page.hero.cta.href}>{page.hero.cta.label}</Button>
-        </p>
-      )}
+      <h1 class="hero__heading">{home.hero.heading}</h1>
+      <div class="hero__body">
+        {home.hero.body.map((p) => <p>{p}</p>)}
+      </div>
+      <Pullquote class="hero__quote">{home.hero.pullquote}</Pullquote>
     </div>
   </section>
 
-  {page.sections.map((s, i) => (
-    <Section
-      label={s.label}
-      heading={s.heading}
-      lede={s.lede}
-      surface={i % 2 === 1 ? 'accent' : 'default'}
-    />
-  ))}
+  <Section
+    label={home.platform.label}
+    heading={home.platform.heading}
+    surface="accent"
+  >
+    <div class="prose">
+      {home.platform.body.map((p) => <p>{p}</p>)}
+    </div>
+  </Section>
+
+  <Section
+    label={home.capabilities.label}
+    heading={home.capabilities.heading}
+    lede={home.capabilities.lede}
+  >
+    <KeyGrid items={home.capabilities.items} numbered columns={2} />
+
+    <p class="equation">
+      {home.capabilities.equation.map((term, i) => (
+        <>
+          {i > 0 && <span class="equation__op" aria-hidden="true">&#215;</span>}
+          <span class="equation__term">{term}</span>
+        </>
+      ))}
+    </p>
+  </Section>
+
+  <Section
+    label={home.applications.label}
+    heading={home.applications.heading}
+    surface="accent"
+  >
+    <ul role="list" class="apps">
+      {home.applications.items.map((item) => (
+        <li class="app">
+          <h3 class="app__title">{item.title}</h3>
+          <p class="app__body">{item.body}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section label={home.closing.label} width="wide">
+    <p class="statement">{home.closing.heading}</p>
+  </Section>
+
+  <Cta />
 </BaseLayout>
 
 <style>
-  .hero { padding-block: clamp(var(--space-2xl), 10vw, var(--space-4xl)); }
+  .hero { padding-block: clamp(var(--space-2xl), 9vw, var(--space-4xl)); }
   .hero .rule { margin-bottom: var(--space-md); }
-  .hero h1 { font-size: var(--text-5xl); max-width: 18ch; }
-  .hero .lede { margin-top: var(--space-md); }
-  .hero__cta { margin-top: var(--space-xl); }
+
+  .hero__heading {
+    font-size: var(--text-5xl);
+    max-width: 17ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero__body {
+    max-width: var(--measure);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--ink-muted);
+  }
+  .hero__body > p + p { margin-top: var(--space-md); }
+
+  .hero__quote { --pullquote-space: var(--space-xl); }
+
+  .equation {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs) var(--space-md);
+    margin: var(--space-xl) 0 0;
+    padding: var(--space-md);
+    border-top: var(--border-hair) solid var(--line);
+    border-bottom: var(--border-hair) solid var(--line);
+    text-align: center;
+  }
+
+  .equation__term {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .equation__op { color: var(--accent); font-size: var(--text-lg); }
+
+  .apps {
+    display: grid;
+    gap: var(--space-xl) var(--space-lg);
+    grid-template-columns: repeat(auto-fit, minmax(min(21rem, 100%), 1fr));
+    margin: 0;
+    padding: 0;
+  }
+
+  .app { border-top: var(--border-rule) solid var(--line-accent); padding-top: var(--space-sm); }
+
+  .app__title {
+    margin: 0 0 var(--space-2xs);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+  }
+
+  .app__body { margin: 0; color: var(--ink-muted); }
+
+  .statement {
+    margin: 0;
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 30ch;
+    text-wrap: balance;
+  }
 </style>

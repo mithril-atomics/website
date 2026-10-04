@@ -1,0 +1,30 @@
+---
+/**
+ * A single emphasised line. Steel rule, larger type — no quote marks, no italics.
+ *
+ * Rest props are spread onto the root deliberately: without that, Astro's
+ * `data-astro-cid-*` scope attribute never reaches this element and a parent's
+ * scoped rule for the class it passed in silently fails to match.
+ */
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className, ...rest } = Astro.props;
+---
+<p class:list={['pullquote', className]} {...rest}><slot /></p>
+
+<style>
+  .pullquote {
+    max-width: 34ch;
+    margin: var(--pullquote-space, 0) 0 0;
+    padding-left: var(--space-md);
+    border-left: var(--border-rule) solid var(--accent-rule);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-heading);
+    color: var(--ink);
+    text-wrap: balance;
+  }
+</style>

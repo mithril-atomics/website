@@ -1,0 +1,44 @@
+---
+interface Props { name: string; role: string; bio?: string }
+const { name, role, bio } = Astro.props;
+---
+
+<li class="person">
+  <h3 class="person__name">{name}</h3>
+  <p class="person__role">{role}</p>
+  {bio && <p class="person__bio">{bio}</p>}
+</li>
+
+<style>
+  .person {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding-top: var(--space-sm);
+    border-top: var(--border-rule) solid var(--line-accent);
+  }
+
+  .person__name {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .person__role {
+    margin: 0;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .person__bio {
+    margin: var(--space-2xs) 0 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--ink-muted);
+  }
+</style>

@@ -1,13 +1,11 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import { pages, company } from '@content/site';
-
-const page = pages.contact;
+import { contact, company } from '@content/site';
 ---
 
-<BaseLayout title={page.title} description={page.description}>
-  <Section heading={page.hero.heading} lede={page.hero.lede} width="content" class="page-hero">
+<BaseLayout title={contact.title} description={contact.description}>
+  <Section heading={contact.heading} lede={contact.lede} width="content" class="contact-section">
     <dl class="contact">
       <dt class="label">Email</dt>
       <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>

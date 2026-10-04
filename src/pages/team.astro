@@ -1,42 +1,57 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import { pages, leadership, advisors } from '@content/site';
-
-const page = pages.team;
+import Person from '@components/Person.astro';
+import Cta from '@components/Cta.astro';
+import { team } from '@content/site';
 ---
 
-<BaseLayout title={page.title} description={page.description}>
-  <Section heading={page.hero.heading} lede={page.hero.lede} class="page-hero" />
+<BaseLayout title={team.title} description={team.description}>
+  <section class="hero">
+    <div class="wrap wrap--wide">
+      <span class="rule" aria-hidden="true"></span>
+      <h1>{team.heading}</h1>
+    </div>
+  </section>
 
-  <Section label="Leadership" heading="Team" headingLevel={3}>
-    <ul role="list" class="grid people">
-      {leadership.map((p) => (
-        <li class="person">
-          <h4>{p.name}</h4>
-          <p class="caption">{p.role}</p>
-          {p.bio && <p class="muted">{p.bio}</p>}
-        </li>
-      ))}
+  <Section heading={team.founders.heading} headingLevel={2}>
+    <ul role="list" class="people">
+      {team.founders.people.map((p) => <Person {...p} />)}
     </ul>
   </Section>
 
-  <Section label="Advisors" heading="Advisory board" headingLevel={3} surface="accent">
-    <ul role="list" class="grid people">
-      {advisors.map((p) => (
-        <li class="person">
-          <h4>{p.name}</h4>
-          <p class="caption">{p.role}</p>
-        </li>
-      ))}
+  <Section heading={team.advisors.heading} headingLevel={2} surface="accent">
+    <ul role="list" class="people">
+      {team.advisors.people.map((p) => <Person {...p} />)}
     </ul>
   </Section>
+
+  <Section width="wide">
+    <p class="statement">{team.closing}</p>
+  </Section>
+
+  <Cta />
 </BaseLayout>
 
 <style>
-  .people { gap: var(--space-xl) var(--space-lg); }
-  .person { border-top: var(--border-rule) solid var(--line-accent); padding-top: var(--space-sm); }
-  .person h4 { margin-bottom: var(--space-3xs); }
-  .person p { margin: 0; }
-  .person .muted { margin-top: var(--space-2xs); }
+  .hero { padding-block: clamp(var(--space-2xl), 7vw, var(--space-3xl)); }
+  .hero .rule { margin-bottom: var(--space-md); }
+
+  .people {
+    display: grid;
+    gap: var(--space-xl) var(--space-lg);
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    margin: 0;
+    padding: 0;
+  }
+
+  .statement {
+    margin: 0;
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    max-width: 26ch;
+    text-wrap: balance;
+  }
 </style>

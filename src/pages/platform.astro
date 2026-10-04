@@ -1,20 +1,157 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Section from '@components/Section.astro';
-import { pages } from '@content/site';
-
-const page = pages.platform;
+import Steps from '@components/Steps.astro';
+import Chain from '@components/Chain.astro';
+import KeyGrid from '@components/KeyGrid.astro';
+import Pullquote from '@components/Pullquote.astro';
+import Cta from '@components/Cta.astro';
+import { platform } from '@content/site';
 ---
 
-<BaseLayout title={page.title} description={page.description}>
-  <Section heading={page.hero.heading} lede={page.hero.lede} headingLevel={2} class="page-hero" />
-  {page.sections.map((s, i) => (
-    <Section
-      label={s.label}
-      heading={s.heading}
-      lede={s.lede}
-      surface={i % 2 === 0 ? 'accent' : 'default'}
-      headingLevel={3}
-    />
-  ))}
+<BaseLayout title={platform.title} description={platform.description}>
+  <section class="hero">
+    <div class="wrap wrap--wide">
+      <span class="rule" aria-hidden="true"></span>
+      <p class="label">{platform.hero.label}</p>
+      <h1 class="hero__heading">{platform.hero.heading}</h1>
+      <div class="hero__body">
+        {platform.hero.body.map((p) => <p>{p}</p>)}
+      </div>
+      <Pullquote class="hero__quote">{platform.hero.pullquote}</Pullquote>
+    </div>
+  </section>
+
+  <Section
+    label={platform.definition.label}
+    heading={platform.definition.heading}
+    lede={platform.definition.lede}
+    surface="accent"
+  >
+    <div class="prose">
+      {platform.definition.body.map((p) => <p>{p}</p>)}
+    </div>
+    <Pullquote class="def__quote">{platform.definition.pullquote}</Pullquote>
+    <p class="def__close">{platform.definition.close}</p>
+  </Section>
+
+  <Section label={platform.pipeline.label} heading={platform.pipeline.heading}>
+    <Steps steps={platform.pipeline.steps} />
+  </Section>
+
+  <Section
+    label={platform.analogy.label}
+    heading={platform.analogy.heading}
+    surface="accent"
+  >
+    <div class="prose analogy__intro">
+      {platform.analogy.body.map((p) => <p>{p}</p>)}
+    </div>
+
+    <div class="analogy__chains">
+      <Chain {...platform.analogy.chains[0]} />
+      <p class="analogy__bridge">{platform.analogy.bridge}</p>
+      <Chain {...platform.analogy.chains[1]} />
+    </div>
+
+    <Pullquote class="analogy__quote">{platform.analogy.pullquote}</Pullquote>
+  </Section>
+
+  <Section
+    label={platform.frontiers.label}
+    heading={platform.frontiers.heading}
+    lede={platform.frontiers.lede}
+  >
+    <KeyGrid items={platform.frontiers.items} columns={4} />
+  </Section>
+
+  <Section label={platform.reach.label} surface="accent">
+    <p class="reach__heading">{platform.reach.heading}</p>
+    <ul role="list" class="reach__domains">
+      {platform.reach.domains.map((d, i) => (
+        <li>
+          {i > 0 && <span class="reach__sep" aria-hidden="true">&#183;</span>}
+          <span class="reach__domain">{d}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="reach__close">{platform.reach.close}</p>
+  </Section>
+
+  <Cta />
 </BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(var(--space-2xl), 8vw, var(--space-3xl)); }
+  .hero .rule { margin-bottom: var(--space-md); }
+  .hero .label { margin: 0 0 var(--space-sm); }
+
+  .hero__heading {
+    font-size: var(--text-4xl);
+    max-width: 20ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero__body {
+    max-width: var(--measure);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--ink-muted);
+  }
+  .hero__body > p + p { margin-top: var(--space-md); }
+  .hero__quote { --pullquote-space: var(--space-xl); }
+
+  .def__quote { --pullquote-space: var(--space-xl); }
+  .def__close {
+    margin: var(--space-lg) 0 0;
+    max-width: var(--measure);
+    color: var(--ink-muted);
+  }
+
+  .analogy__intro { margin-bottom: var(--space-xl); }
+  .analogy__intro > p + p { margin-top: var(--space-md); }
+
+  .analogy__chains { display: grid; gap: var(--space-md); max-width: var(--width-wide); }
+
+  .analogy__bridge {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--ink-muted);
+    max-width: var(--measure);
+  }
+
+  .analogy__quote { --pullquote-space: var(--space-xl); }
+
+  .reach__heading {
+    margin: 0;
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-heading);
+    max-width: var(--measure);
+    text-wrap: balance;
+  }
+
+  .reach__domains {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-sm);
+    margin: var(--space-xl) 0;
+    padding: var(--space-md) 0;
+    border-top: var(--border-hair) solid var(--line);
+    border-bottom: var(--border-hair) solid var(--line);
+  }
+
+  .reach__domains li { display: inline-flex; align-items: center; gap: var(--space-sm); }
+
+  .reach__domain {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .reach__sep { color: var(--accent); }
+
+  .reach__close { margin: 0; color: var(--ink-muted); max-width: var(--measure); }
+</style>

@@ -1,0 +1,138 @@
+---
+/**
+ * The four-stage pipeline. An ordered list with a connecting hairline;
+ * each stage may declare what it emits. The arrows are decorative — the
+ * <ol> already carries the sequence for assistive tech.
+ */
+interface Props {
+  steps: {
+    key: string;
+    body: string;
+    outputLabel?: string | null;
+    output?: string | null;
+  }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="steps">
+  {steps.map((step, i) => (
+    <li class="steps__item">
+      <div class="steps__marker" aria-hidden="true">
+        <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+        {i < steps.length - 1 && <span class="steps__line"></span>}
+      </div>
+
+      <div class="steps__content">
+        <h3 class="steps__key">{step.key}</h3>
+        <p class="steps__body">{step.body}</p>
+        {step.output && (
+          <p class="steps__output">
+            <span class="steps__output-label">{step.outputLabel}</span>
+            <span class="steps__output-value">{step.output}</span>
+          </p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .steps__item {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-md);
+  }
+
+  .steps__marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .steps__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    border: var(--border-hair) solid var(--line-accent);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    background-color: var(--surface);
+    flex: none;
+  }
+
+  .steps__line {
+    inline-size: var(--border-hair);
+    flex: 1;
+    min-block-size: var(--space-lg);
+    background-color: var(--line-accent);
+  }
+
+  .steps__content { padding-bottom: var(--space-xl); }
+  .steps__item:last-child .steps__content { padding-bottom: 0; }
+
+  .steps__key {
+    margin: 0 0 var(--space-2xs);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+    /* optical alignment with the 40px numeral */
+    padding-top: 0.55rem;
+  }
+
+  .steps__body {
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    max-width: var(--measure);
+  }
+
+  .steps__output {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-2xs);
+    margin: var(--space-sm) 0 0;
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--surface-accent);
+    border-left: var(--border-rule) solid var(--line-accent);
+    max-width: var(--measure);
+  }
+
+  .steps__output-label {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+    flex: none;
+  }
+
+  .steps__output-value {
+    font-size: var(--text-sm);
+    color: var(--ink);
+  }
+
+  @media (max-width: 36rem) {
+    .steps__item { grid-template-columns: 2.5rem 1fr; gap: var(--space-sm); }
+    .steps__num { inline-size: 2rem; block-size: 2rem; }
+    .steps__key { padding-top: 0.3rem; }
+  }
+</style>
