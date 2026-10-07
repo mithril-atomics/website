@@ -4,12 +4,12 @@ import Section from '@components/Section.astro';
 import Button from '@components/Button.astro';
 ---
 
-<BaseLayout title="Page not found" noindex={true}>
+<BaseLayout title="Page not found" noindex={true} contactHref="/#contact">
   <Section
     heading="That page does not exist"
     lede="The address may be mistyped, or the page may have moved."
     width="content"
   >
-    <Button href="/">Return home</Button>
+    <Button href="/" arrow>Return home</Button>
   </Section>
 </BaseLayout>

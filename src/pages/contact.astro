@@ -1,34 +1,69 @@
 ---
+/**
+ * Contact — the closing band as a page of its own, plus the address book.
+ * Placeholder values ([BRACKETS] in site.ts) never render.
+ */
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Section from '@components/Section.astro';
-import { contact, company } from '@content/site';
+import Cta from '@components/Cta.astro';
+import { contact, company, ui, isSet } from '@content/site';
 ---
 
 <BaseLayout title={contact.title} description={contact.description}>
-  <Section heading={contact.heading} lede={contact.lede} width="content" class="contact-section">
-    <dl class="contact">
-      <dt class="label">Email</dt>
-      <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+  <section class="contact-hero">
+    <div class="wrap contact-hero__inner">
+      <p class="label eyebrow">{ui.contact}</p>
+      <h1 class="contact-hero__heading">{contact.heading}</h1>
+      <dl class="contact-list">
+        <div>
+          <dt class="label">Email</dt>
+          <dd><a href={`mailto:${company.email}`}>{company.email}</a></dd>
+        </div>
+        {isSet(company.address) && (
+          <div>
+            <dt class="label">Registered office</dt>
+            <dd>{company.address}</dd>
+          </div>
+        )}
+        {isSet(company.linkedin) && (
+          <div>
+            <dt class="label">{ui.linkedin}</dt>
+            <dd><a href={company.linkedin}>{company.name}</a></dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  </section>
 
-      {company.address && (
-        <Fragment>
-          <dt class="label">Registered office</dt>
-          <dd>{company.address}</dd>
-        </Fragment>
-      )}
-
-      {company.linkedin && (
-        <Fragment>
-          <dt class="label">LinkedIn</dt>
-          <dd><a href={company.linkedin}>{company.name}</a></dd>
-        </Fragment>
-      )}
-    </dl>
-  </Section>
+  <Cta />
 </BaseLayout>
 
 <style>
-  .contact { display: grid; gap: var(--space-lg); margin: 0; }
-  .contact dt { margin-bottom: var(--space-3xs); }
-  .contact dd { margin: 0; font-size: var(--text-lg); }
+  .contact-hero { border-bottom: var(--border-hair) solid var(--line); }
+
+  .contact-hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-28), 4vw, var(--space-xl));
+    padding-block: clamp(var(--space-3xl), 12vw, var(--space-176)) clamp(var(--space-2xl), 8vw, var(--space-112));
+  }
+  .contact-hero__inner .eyebrow { margin: 0; }
+
+  .contact-hero__heading {
+    margin: 0;
+    font-size: var(--text-display-sm);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .contact-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--space-lg);
+    margin: 0;
+    padding-top: var(--space-28);
+    border-top: var(--border-hair) solid var(--line);
+  }
+  .contact-list dt { margin-bottom: var(--space-2xs); }
+  .contact-list dd { margin: 0; font-size: var(--text-lede); color: var(--ink-strong); }
+  .contact-list a { color: var(--ink-strong); }
 </style>

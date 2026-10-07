@@ -4,7 +4,7 @@
 > It is the handover note between sessions: what is built, what is decided,
 > what is broken, what comes next.
 
-**Last updated:** 2026-10-04 · **Branch:** `main` · **Last commit:** `de7d6db`
+**Last updated:** 2026-10-07 · **Branch:** `main` · **Last commit:** `de7d6db`
 **Overall status:** 🟡 Buildable and reviewable locally. **Not ready to deploy** —
 see [Blockers](#blockers-before-first-deploy).
 
@@ -49,6 +49,7 @@ npm run preview    # serve dist/ as Vercel will
 | SEO | Per-page title/description/canonical, OG + Twitter tags, Organization JSON-LD, sitemap, robots.txt |
 | Accessibility | Skip link, `aria-current`, visible focus, ≥44px targets, real semantic elements |
 | Docs | `README.md`, `docs/DESIGN-SYSTEM.md`, `docs/CONTENT-GUIDE.md` |
+| **v3 redesign ported** (2026-10-07) | Dark-primary (`data-surface="inverse"` on `<html>`), Home + Team match `Mith_Web_mockup/` v3. Images in `public/images/`. Nav = Solutions · Technology · Team · Talk to us. Platform and Contact restyled but not in the nav. Uncommitted |
 
 ### Verified, not assumed
 
@@ -227,6 +228,7 @@ Confirm any new technical copy with the founder before publishing.
 | 2026-10-04 | `e6f5a0a` | Repo scaffold, build pipeline, full design-token system, font subsetting, logo trimming, docs |
 | 2026-10-04 | `5b0c3d0` | Documented the three sanctioned raw-hex exceptions |
 | 2026-10-04 | `de7d6db` | All approved copy in; Home/Platform/Team/Contact built; Steps, Chain, KeyGrid, Pullquote, Person, Cta components; fixed KeyGrid dead cells and the Pullquote scope bug |
+| 2026-10-07 | — (uncommitted) | Ported v3 mock to Astro: tokens (display scale, light/inverse role sets, `--btn-*`, scrims), Header/Footer/Button/Cta/Person rebuilt, Home + Team rewritten, team photos + LinkedIn in `site.ts`, Vashishtha Kochar added (bio pending, renders nothing), `isSet()` hides `[PLACEHOLDER]` values. `astro check` 0/0/0; no overflow at 390px |
 
 ---
 

@@ -1,57 +1,74 @@
 ---
 import Logo from './Logo.astro';
-import { company, nav, footer } from '@content/site';
+import { company, nav, footer, ui, isSet } from '@content/site';
 
+interface Props {
+  /** Show the "AI-generated, illustrative" imagery note (pages that use AI images). */
+  imageryNote?: boolean;
+}
+
+const { imageryNote = false } = Astro.props;
 const year = new Date().getFullYear();
+const links = [...nav, { label: ui.contact, href: '#contact' }];
 ---
 
 <footer class="site-footer" data-surface="inverse">
   <div class="wrap site-footer__inner">
     <div class="site-footer__brand">
-      <Logo ink="platinum" height={48} label="" />
+      <Logo ink="platinum" height={48} label={company.name} />
       <p class="caption">{footer.note}</p>
     </div>
 
-    <nav aria-label="Footer">
+    <nav aria-label="Footer" class="site-footer__col">
+      <p class="label">{ui.company}</p>
       <ul role="list" class="site-footer__links">
-        {nav.map((item) => (
+        {links.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
         ))}
       </ul>
     </nav>
 
-    <div class="site-footer__contact">
-      <p class="label">Contact</p>
-      <p><a href={`mailto:${company.email}`}>{company.email}</a></p>
-      {company.linkedin && <p><a href={company.linkedin}>LinkedIn</a></p>}
+    <div class="site-footer__col">
+      <p class="label">{ui.contact}</p>
+      <ul role="list" class="site-footer__links">
+        <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+        {isSet(company.linkedin) && <li><a href={company.linkedin}>{ui.linkedin}</a></li>}
+      </ul>
     </div>
   </div>
 
   <div class="wrap site-footer__legal">
     <p class="caption">{footer.copyright(year)}</p>
-    <ul role="list" class="site-footer__legal-links">
-      {footer.links.map((l) => (
-        <li><a href={l.href}>{l.label}</a></li>
-      ))}
-    </ul>
+    {footer.links.length > 0 && (
+      <ul role="list" class="site-footer__legal-links">
+        {footer.links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    )}
+    {imageryNote && <p class="caption">{ui.imageryNote}</p>}
   </div>
 </footer>
 
 <style>
   .site-footer {
-    margin-top: auto;
-    padding-top: var(--section-y);
+    --surface: var(--surface-sunken);
+    background-color: var(--surface);
+    border-top: var(--border-hair) solid var(--line);
   }
 
   .site-footer__inner {
     display: grid;
     gap: var(--space-xl);
-    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
-    padding-bottom: var(--space-2xl);
+    grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+    padding-block: var(--space-56) var(--space-xl);
   }
 
-  .site-footer__brand { display: flex; flex-direction: column; gap: var(--space-md); }
+  .site-footer__brand { display: flex; flex-direction: column; gap: var(--space-20); }
   .site-footer__brand .caption { max-width: 28ch; }
+
+  .site-footer__col { display: flex; flex-direction: column; gap: var(--space-2xs); }
+  .site-footer__col .label { margin-bottom: var(--space-3xs); font-size: var(--text-ui-xs); }
 
   .site-footer__links,
   .site-footer__legal-links {
@@ -68,18 +85,15 @@ const year = new Date().getFullYear();
     text-decoration: none;
     font-size: var(--text-sm);
   }
-  .site-footer a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 0.2em; }
-
-  .site-footer__contact { display: flex; flex-direction: column; gap: var(--space-2xs); }
-  .site-footer__contact p { margin: 0; }
+  .site-footer a:hover { color: var(--ink-strong); text-decoration: underline; text-underline-offset: 0.2em; }
 
   .site-footer__legal {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-sm);
-    padding-block: var(--space-md);
+    gap: var(--space-xs) var(--space-lg);
+    padding-block: var(--space-20);
     border-top: var(--border-hair) solid var(--line);
   }
 </style>

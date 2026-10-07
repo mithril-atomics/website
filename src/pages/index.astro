@@ -1,140 +1,541 @@
 ---
+/**
+ * Home — v3 "dark, solution-led" (Mith_Web_mockup/Home v3).
+ * Narrative: Hero → Challenge → Solutions → Technology → Reach → Team → Contact.
+ * Zero client JS: the hero drift and the domain marquee are CSS keyframes,
+ * both switched off under prefers-reduced-motion.
+ */
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Section from '@components/Section.astro';
-import KeyGrid from '@components/KeyGrid.astro';
-import Pullquote from '@components/Pullquote.astro';
+import Button from '@components/Button.astro';
+import Person from '@components/Person.astro';
 import Cta from '@components/Cta.astro';
-import { home } from '@content/site';
+import { home, platform, team, ui } from '@content/site';
+
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+const domains = platform.reach.domains;
+// One marquee run = the domain list twice; two runs side by side loop seamlessly at -50%.
+const run = [...domains, ...domains];
 ---
 
-<BaseLayout description={home.description}>
+<BaseLayout description={home.description} headerOverlay imageryNote>
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="wrap wrap--wide">
-      <span class="rule" aria-hidden="true"></span>
+    {home.hero.video ? (
+      <video class="hero__media" src={home.hero.video} poster={home.hero.image} autoplay muted loop playsinline aria-hidden="true"></video>
+    ) : (
+      <img class="hero__media hero__media--drift" src={home.hero.image} alt="" width="2400" height="1340" fetchpriority="high" decoding="async" />
+    )}
+    <span class="scrim scrim--hero" aria-hidden="true"></span>
+
+    <div class="wrap hero__inner">
+      <p class="label eyebrow">{home.hero.eyebrow}</p>
       <h1 class="hero__heading">{home.hero.heading}</h1>
-      <div class="hero__body">
-        {home.hero.body.map((p) => <p>{p}</p>)}
+      <div class="hero__row">
+        <p class="hero__lede">{home.hero.lede}</p>
+        <div class="hero__actions">
+          <Button href="#contact" size="lg" arrow>{ui.talk}</Button>
+          <Button href="#solutions" size="lg" variant="outline">{ui.exploreSolutions}</Button>
+        </div>
       </div>
-      <Pullquote class="hero__quote">{home.hero.pullquote}</Pullquote>
     </div>
   </section>
 
-  <Section
-    label={home.platform.label}
-    heading={home.platform.heading}
-    surface="accent"
-  >
-    <div class="prose">
-      {home.platform.body.map((p) => <p>{p}</p>)}
+  <!-- ── The challenge ────────────────────────────────────────────────── -->
+  <section class="band band--rule">
+    <div class="wrap challenge">
+      <p class="label challenge__label">{ui.challenge}</p>
+      <div class="challenge__body">
+        <p class="challenge__statement">{home.hero.body[0]}</p>
+        <p class="challenge__text">{home.hero.body[1]}</p>
+        <p class="challenge__quote">{home.hero.pullquote}</p>
+      </div>
     </div>
-  </Section>
+  </section>
 
-  <Section
-    label={home.capabilities.label}
-    heading={home.capabilities.heading}
-    lede={home.capabilities.lede}
-  >
-    <KeyGrid items={home.capabilities.items} numbered columns={2} />
+  <!-- ── Solutions ────────────────────────────────────────────────────── -->
+  <section id="solutions" class="anchor">
+    <div class="wrap head head--split solutions__head">
+      <div class="head__title">
+        <p class="label">{ui.solutions}</p>
+        <h2 class="headline">{platform.frontiers.heading}</h2>
+      </div>
+      <p class="head__aside">{platform.frontiers.lede}</p>
+    </div>
 
-    <p class="equation">
-      {home.capabilities.equation.map((term, i) => (
-        <>
-          {i > 0 && <span class="equation__op" aria-hidden="true">&#215;</span>}
-          <span class="equation__term">{term}</span>
-        </>
-      ))}
-    </p>
-  </Section>
-
-  <Section
-    label={home.applications.label}
-    heading={home.applications.heading}
-    surface="accent"
-  >
-    <ul role="list" class="apps">
-      {home.applications.items.map((item) => (
-        <li class="app">
-          <h3 class="app__title">{item.title}</h3>
-          <p class="app__body">{item.body}</p>
+    <ul role="list" class="solutions">
+      {home.solutions.map((s, i) => (
+        <li class="sol">
+          <img class="sol__img" src={s.image} alt={s.alt} width="967" height="1200" loading="lazy" decoding="async" />
+          <span class="scrim scrim--card" aria-hidden="true"></span>
+          <div class="sol__text">
+            <span class="sol__meta"><span>{pad(i)}</span><span>{s.key}</span></span>
+            <h3 class="sol__title">{s.title}</h3>
+            <p class="sol__body">{s.body}</p>
+          </div>
         </li>
       ))}
     </ul>
-  </Section>
+  </section>
 
-  <Section label={home.closing.label} width="wide">
-    <p class="statement">{home.closing.heading}</p>
-  </Section>
+  <!-- ── Technology (the one light band) ──────────────────────────────── -->
+  <section id="technology" class="anchor tech" data-surface="light">
+    <div class="wrap tech__inner">
+      <div class="head head--grid">
+        <div class="head__title">
+          <p class="label">{ui.technology}</p>
+          <h2 class="headline tech__heading">{platform.pipeline.heading}</h2>
+        </div>
+        <p class="head__aside head__aside--lede">{home.platform.body[1]}</p>
+      </div>
 
-  <Cta />
+      <ol role="list" class="steps">
+        {platform.pipeline.steps.map((st, i) => (
+          <li class="step">
+            <span class="step__head">
+              <span class="step__num" aria-hidden="true">{pad(i)}</span>
+              <span class="step__key">{st.key}</span>
+            </span>
+            <p class="step__body">{st.body}</p>
+            {st.output && (
+              <p class="step__out">
+                <span class="step__out-label">{st.outputLabel}</span>
+                <span class="step__out-value">{st.output}</span>
+              </p>
+            )}
+          </li>
+        ))}
+      </ol>
+
+      <p class="equation">
+        {home.capabilities.equation.map((term, i) => (
+          <>
+            {i > 0 && <span class="equation__op" aria-hidden="true">&#215;</span>}
+            <span>{term}</span>
+          </>
+        ))}
+      </p>
+    </div>
+  </section>
+
+  <!-- ── From the Earth to the Edge ───────────────────────────────────── -->
+  <section class="band--rule reach">
+    <div class="wrap head head--grid reach__head">
+      <div class="head__title">
+        <p class="label">{platform.reach.label}</p>
+        <h2 class="heading">{platform.reach.heading}</h2>
+      </div>
+      <p class="head__aside">{platform.reach.close}</p>
+    </div>
+
+    <ul role="list" class="visually-hidden">
+      {domains.map((d) => <li>{d}</li>)}
+    </ul>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        {[0, 1].map(() => (
+          <span class="marquee__run">
+            {run.map((w, i) => (
+              <>
+                <span class:list={['marquee__word', { 'marquee__word--dim': i % 2 === 1 }]}>{w}</span>
+                <span class="marquee__dot"></span>
+              </>
+            ))}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team preview ─────────────────────────────────────────────────── -->
+  <section class="band--rule">
+    <div class="wrap team-preview">
+      <div class="head head--split team-preview__head">
+        <div class="head__title">
+          <p class="label">{ui.team}</p>
+          <h2 class="heading team-preview__heading">{team.closing}</h2>
+        </div>
+        <Button href="/team" variant="outline" arrow>{ui.meetTeam}</Button>
+      </div>
+      <ul role="list" class="team-grid">
+        {team.founders.people.map((p) => <Person {...p} compact />)}
+      </ul>
+    </div>
+  </section>
+
+  <Cta label={home.closing.label} size="display" showEmail />
 </BaseLayout>
 
 <style>
-  .hero { padding-block: clamp(var(--space-2xl), 9vw, var(--space-4xl)); }
-  .hero .rule { margin-bottom: var(--space-md); }
+  /* ── Shared ───────────────────────────────────────────────────────── */
+  .anchor { scroll-margin-top: var(--header-h); }
+  .band--rule { border-bottom: var(--border-hair) solid var(--line); }
+
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background-color: var(--scrim);
+    pointer-events: none;
+  }
+  .scrim--hero { opacity: var(--scrim-hero); }
+  .scrim--card { opacity: var(--scrim-card); }
+
+  .head { display: flex; gap: var(--space-md) var(--space-xl); }
+  .head__title { display: flex; flex-direction: column; gap: var(--space-md); }
+  .head__title .label { margin: 0; }
+  .head--split { flex-wrap: wrap; align-items: flex-end; justify-content: space-between; }
+  .head--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: var(--space-lg) clamp(var(--space-40), 8vw, var(--space-4xl));
+    align-items: end;
+  }
+  .head__aside { max-width: 44ch; color: var(--ink-soft); line-height: 1.65; }
+  .head__aside--lede { max-width: 52ch; font-size: var(--text-lede); }
+
+  .headline {
+    margin: 0;
+    font-size: var(--text-headline);
+    line-height: 1.02;
+    letter-spacing: var(--tracking-headline);
+    max-width: 14ch;
+  }
+
+  .heading {
+    margin: 0;
+    font-size: var(--text-heading);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    max-width: 26ch;
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-color: var(--surface);
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+  }
+
+  .hero__media--drift {
+    transform: scale(1.08);
+    transform-origin: 30% 30%;
+    animation: drift var(--drift-duration) var(--ease) infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes drift {
+    from { transform: scale(1.08) translate3d(0, 0, 0); }
+    to   { transform: scale(1.16) translate3d(-2.5%, -1.5%, 0); }
+  }
+
+  .hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-28), 4vw, var(--space-xl));
+    padding-block: var(--space-5xl) clamp(var(--space-40), 6vw, var(--space-72));
+  }
+
+  .hero__inner .eyebrow { margin: 0; }
 
   .hero__heading {
-    font-size: var(--text-5xl);
-    max-width: 17ch;
-    margin-bottom: var(--space-xl);
+    margin: 0;
+    max-width: 13ch;
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
   }
 
-  .hero__body {
-    max-width: var(--measure);
-    font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
-    color: var(--ink-muted);
-  }
-  .hero__body > p + p { margin-top: var(--space-md); }
-
-  .hero__quote { --pullquote-space: var(--space-xl); }
-
-  .equation {
+  .hero__row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs) var(--space-md);
-    margin: var(--space-xl) 0 0;
-    padding: var(--space-md);
-    border-top: var(--border-hair) solid var(--line);
-    border-bottom: var(--border-hair) solid var(--line);
-    text-align: center;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-28) var(--space-xl);
+    padding-top: var(--space-28);
+    border-top: var(--border-hair) solid var(--line-overlay);
   }
 
-  .equation__term {
-    font-size: var(--text-lg);
+  .hero__lede {
+    margin: 0;
+    max-width: 52ch;
+    font-size: var(--text-lede-lg);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+
+  /* ── Challenge ────────────────────────────────────────────────────── */
+  .challenge {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-lg) clamp(var(--space-40), 8vw, var(--space-4xl));
+    padding-block: var(--section-y-lg);
+  }
+
+  .challenge__label { flex: 0 0 14rem; margin: 0; }
+
+  .challenge__body {
+    flex: 1 1 32rem;
+    min-width: 0;
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+
+  .challenge__statement {
+    margin: 0;
+    font-size: var(--text-statement);
     font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking-heading);
+    line-height: 1.08;
+    letter-spacing: var(--tracking-headline);
+    color: var(--ink-strong);
+    text-wrap: balance;
   }
 
-  .equation__op { color: var(--accent); font-size: var(--text-lg); }
+  .challenge__text {
+    margin: 0;
+    max-width: 58ch;
+    font-size: var(--text-lede);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
 
-  .apps {
+  .challenge__quote {
+    margin: 0;
+    max-width: 40ch;
+    padding-left: var(--space-md);
+    border-left: var(--border-rule) solid var(--accent);
+    font-size: var(--text-pull);
+    font-weight: var(--weight-medium);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-heading);
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+
+  /* ── Solutions ────────────────────────────────────────────────────── */
+  .solutions__head { padding-block: var(--section-y) clamp(var(--space-40), 4vw, var(--space-2xl)); }
+
+  /* Rules are border-right on each card (see PROJECT_STATUS C4), not grid gaps. */
+  .solutions {
     display: grid;
-    gap: var(--space-xl) var(--space-lg);
-    grid-template-columns: repeat(auto-fit, minmax(min(21rem, 100%), 1fr));
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0;
+    border-block: var(--border-hair) solid var(--line);
+  }
+  @media (min-width: 26rem) { .solutions { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 56rem) { .solutions { grid-template-columns: repeat(4, 1fr); } }
+
+  .sol {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(30rem, 52vw, 44rem);
+    overflow: hidden;
+    border-right: var(--border-hair) solid var(--line);
+    background-color: var(--surface-raised);
+  }
+
+  .sol__img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    opacity: var(--photo-dim);
+    transition: opacity var(--duration-slow) var(--ease);
+  }
+  .sol:hover .sol__img { opacity: var(--photo-lit); }
+
+  .sol__text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-14);
+    padding: var(--space-28) clamp(var(--space-20), 2.4vw, var(--space-36)) var(--space-36);
+    background-color: var(--panel-bg);
+    pointer-events: none;
+  }
+
+  .sol__meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    color: var(--accent-strong);
+  }
+
+  .sol__title {
+    margin: 0;
+    font-size: var(--text-title);
+    line-height: 1.12;
+    letter-spacing: var(--tracking-title);
+  }
+
+  .sol__body { margin: 0; font-size: var(--text-ui-md); line-height: 1.6; color: var(--ink); }
+
+  /* ── Technology ───────────────────────────────────────────────────── */
+  .tech__inner { padding-block: clamp(var(--space-3xl), 11vw, var(--space-176)); }
+  .tech .head { margin-bottom: clamp(var(--space-56), 7vw, var(--space-112)); }
+  .tech__heading { max-width: 15ch; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0;
+    border-top: var(--border-rule) solid var(--line-heavy);
+  }
+  @media (min-width: 26rem) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 56rem) { .steps { grid-template-columns: repeat(4, 1fr); } }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    padding: var(--space-28) clamp(var(--space-sm), 2vw, var(--space-lg)) var(--space-40) 0;
+    border-bottom: var(--border-hair) solid var(--line);
+  }
+
+  .step__head { display: flex; align-items: baseline; gap: var(--space-14); }
+
+  .step__num {
+    font-size: var(--text-numeral);
+    font-weight: var(--weight-medium);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+  }
+
+  .step__key {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-strong);
+  }
+
+  .step__body {
+    margin: 0;
+    font-size: var(--text-step);
+    line-height: 1.5;
+    color: var(--ink-strong);
+  }
+
+  .step__out {
+    margin: auto 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-14) var(--space-sm);
+    background-color: var(--surface-accent);
+    border-left: var(--border-rule) solid var(--accent);
+  }
+
+  .step__out-label {
+    font-size: var(--text-ui-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .step__out-value { font-size: var(--text-sm); line-height: 1.5; color: var(--ink-strong); }
+
+  .equation {
+    margin: clamp(var(--space-56), 6vw, var(--space-3xl)) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3xs) clamp(var(--space-sm), 2.4vw, var(--space-36));
+    font-size: var(--text-equation);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-headline);
+    color: var(--ink-strong);
+  }
+  .equation__op { color: var(--accent); }
+
+  /* ── Reach + marquee ──────────────────────────────────────────────── */
+  .reach { overflow: hidden; }
+  .reach__head { padding-block: var(--section-y) clamp(var(--space-40), 5vw, var(--space-72)); }
+
+  .marquee {
+    overflow: hidden;
+    padding-block: clamp(var(--space-20), 3vw, var(--space-36));
+    border-top: var(--border-hair) solid var(--line);
+  }
+
+  .marquee__track {
+    display: flex;
+    inline-size: max-content;
+    animation: marquee var(--marquee-duration) linear infinite;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .marquee__run {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: clamp(var(--space-28), 4vw, var(--space-2xl));
+    padding-right: clamp(var(--space-28), 4vw, var(--space-2xl));
+  }
+
+  .marquee__word {
+    font-size: var(--text-marquee);
+    font-weight: var(--weight-medium);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    color: var(--ink-strong);
+    white-space: nowrap;
+  }
+  .marquee__word--dim { color: var(--line-strong); }
+
+  .marquee__dot {
+    flex: none;
+    inline-size: var(--marker);
+    block-size: var(--marker);
+    background-color: var(--accent);
+  }
+
+  /* ── Team preview ─────────────────────────────────────────────────── */
+  .team-preview { padding-block: var(--section-y); }
+  .team-preview__head { margin-bottom: clamp(var(--space-40), 5vw, var(--space-72)); }
+  .team-preview__heading { max-width: 24ch; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg) var(--space-sm);
     margin: 0;
     padding: 0;
   }
+  @media (min-width: 36rem) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 60rem) { .team-grid { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); } }
 
-  .app { border-top: var(--border-rule) solid var(--line-accent); padding-top: var(--space-sm); }
-
-  .app__title {
-    margin: 0 0 var(--space-2xs);
-    font-size: var(--text-lg);
-    font-weight: var(--weight-medium);
-    line-height: var(--leading-snug);
-  }
-
-  .app__body { margin: 0; color: var(--ink-muted); }
-
-  .statement {
-    margin: 0;
-    font-size: var(--text-3xl);
-    font-weight: var(--weight-bold);
-    line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-display);
-    max-width: 30ch;
-    text-wrap: balance;
+  @media (prefers-reduced-motion: reduce) {
+    .hero__media--drift, .marquee__track { animation: none; }
   }
 </style>

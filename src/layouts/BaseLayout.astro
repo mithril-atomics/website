@@ -9,19 +9,25 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  /** Home: header floats over the full-bleed hero. */
+  headerOverlay?: boolean;
+  /** Target of the header's "Talk to us" (pages without a #contact band pass '/#contact'). */
+  contactHref?: string;
+  /** Footer note for pages that use AI-generated imagery. */
+  imageryNote?: boolean;
 }
 
-const { title, description, image, noindex } = Astro.props;
+const { title, description, image, noindex, headerOverlay, contactHref, imageryNote } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en-IN">
+<!-- v3: dark-primary (D10). Every colour role flips from this one attribute. -->
+<html lang="en-IN" data-surface="inverse">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#F5F6F7" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0E1013" />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -41,10 +47,10 @@ const { title, description, image, noindex } = Astro.props;
   </head>
 
   <body>
-    <Header />
+    <Header overlay={headerOverlay} contactHref={contactHref} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer imageryNote={imageryNote} />
   </body>
 </html>

@@ -60,31 +60,6 @@
   --ink-050: #F6F7F7;
 
   /* ---------------------------------------------------------------------
-     3. SEMANTIC ROLES — light surface (the site default).
-     Components reference ONLY these, never the ramps above.
-     --------------------------------------------------------------------- */
-  --surface:          var(--brand-off-white);
-  --surface-raised:   #FFFFFF;
-  --surface-sunken:   var(--ink-100);
-  --surface-accent:   var(--steel-050);
-  --surface-inverse:  var(--brand-graphite);
-
-  --ink:              var(--brand-graphite);   /* 17.6:1 — headings, body  */
-  --ink-muted:        var(--ink-500);          /*  5.5:1 — captions, meta  */
-  --ink-on-accent:    #FFFFFF;                 /*  6.8:1 on --accent       */
-
-  --accent:           var(--steel-500);
-  --accent-hover:     var(--steel-700);
-  --accent-quiet:     var(--steel-100);        /* tinted blocks            */
-  --accent-rule:      var(--steel-400);        /* the short brand rule     */
-
-  --line:             var(--ink-200);          /* default hairline         */
-  --line-strong:      var(--ink-300);
-  --line-accent:      var(--steel-200);
-
-  --focus-ring:       var(--steel-500);
-
-  /* ---------------------------------------------------------------------
      4. TYPOGRAPHY — IBM Plex Sans, two weights (Regular 400, Medium 500 /
      Bold 700 for headings). Light and Thin are forbidden by the guidelines.
      --------------------------------------------------------------------- */
@@ -108,16 +83,41 @@
   --text-4xl:      clamp(2.25rem,   1.86rem + 1.95vw, 3.5rem);
   --text-5xl:      clamp(2.625rem,  1.95rem + 3.38vw, 4.5rem);
 
+  /* v3 display scale (Oct 2026 redesign) — Medium 500, tight tracking. */
+  --text-ui-xs:    0.75rem;                                    /* 12px      */
+  --text-ui-md:    0.9375rem;                                  /* 15px      */
+  --text-ui-lg:    1rem;                                       /* 16px      */
+  --text-step:     clamp(1.0625rem, 1rem    + 0.20vw, 1.1875rem);
+  --text-person:   clamp(1.125rem,  1.05rem + 0.30vw, 1.3125rem);
+  --text-lede:     clamp(1.0625rem, 1rem    + 0.25vw, 1.25rem);
+  --text-lede-lg:  clamp(1.125rem,  1.05rem + 0.30vw, 1.375rem);
+  --text-pull:     clamp(1.25rem,   1.1rem  + 0.50vw, 1.625rem);
+  --text-title:    clamp(1.5rem,    1.3rem  + 0.60vw, 1.875rem);
+  --text-heading:  clamp(1.75rem,   1.3rem  + 1.80vw, 2.75rem);
+  --text-equation: clamp(1.75rem,   1.2rem  + 2.20vw, 3.25rem);
+  --text-group:    clamp(2rem,      1.4rem  + 2.20vw, 3.25rem);
+  --text-statement:clamp(2rem,      1.3rem  + 2.60vw, 3.75rem);
+  --text-numeral:  clamp(2.5rem,    2rem    + 1.60vw, 3.75rem);
+  --text-headline: clamp(2.25rem,   1.4rem  + 3.00vw, 4.25rem);
+  --text-marquee:  clamp(2.5rem,    1.6rem  + 4.00vw, 5.5rem);
+  --text-display-sm: clamp(2.5rem,  1.3rem  + 4.40vw, 5.5rem);
+  --text-display:  clamp(2.75rem,   1.2rem  + 5.60vw, 6.75rem);
+
+  --leading-display: 0.98;
+  --leading-headline: 1.04;
   --leading-tight:  1.1;
   --leading-snug:   1.25;
   --leading-normal: 1.6;
   --leading-relaxed: 1.7;
 
   /* Headlines carry generous tracking; body is tightly kerned (guidelines p.05) */
-  --tracking-display: -0.02em;
+  --tracking-display: -0.035em;
+  --tracking-headline: -0.03em;
+  --tracking-title:   -0.02em;
   --tracking-heading: -0.01em;
   --tracking-body:     0em;
-  --tracking-label:    0.08em;   /* full caps, short labels only            */
+  --tracking-label:    0.12em;   /* full caps, short labels only            */
+  --tracking-role:     0.1em;    /* caps role line under a person's name    */
 
   /* 60–75 characters per line (guidelines p.05) */
   --measure:       68ch;
@@ -137,13 +137,32 @@
   --space-3xl: 6rem;      /* 96px */
   --space-4xl: 8rem;      /* 128px */
 
-  --section-y: clamp(var(--space-2xl), 6vw, var(--space-4xl));
-  --gutter:    clamp(var(--space-sm), 4vw, var(--space-xl));
+  /* Intermediate steps used by the v3 layout (named by their px value). */
+  --space-6:   0.375rem;  /*   6px */
+  --space-10:  0.625rem;  /*  10px */
+  --space-14:  0.875rem;  /*  14px */
+  --space-18:  1.125rem;  /*  18px */
+  --space-20:  1.25rem;   /*  20px */
+  --space-28:  1.75rem;   /*  28px */
+  --space-36:  2.25rem;   /*  36px */
+  --space-40:  2.5rem;    /*  40px */
+  --space-56:  3.5rem;    /*  56px */
+  --space-72:  4.5rem;    /*  72px */
+  --space-112: 7rem;      /* 112px */
+  --space-176: 11rem;     /* 176px */
+  --space-5xl: 10rem;     /* 160px */
+  --space-6xl: 12rem;     /* 192px */
+
+  --section-y:    clamp(5rem, 9vw, 9rem);        /*  80–144px */
+  --section-y-lg: clamp(6rem, 12vw, 12rem);      /*  96–192px */
+  --gutter:       clamp(var(--space-sm), 4vw, 3.5rem);
+  --header-h:     72px;
+  --marker:       10px;   /* square dot in the domain marquee */
 
   /* ---------------------------------------------------------------------
      6. LAYOUT
      --------------------------------------------------------------------- */
-  --width-full:    80rem;   /* 1280px — page frame      */
+  --width-full:    90rem;   /* 1440px — page frame      */
   --width-wide:    68rem;   /* 1088px — wide content    */
   --width-content: 48rem;   /*  768px — prose column    */
   --width-narrow:  36rem;   /*  576px — forms, asides   */
@@ -174,32 +193,106 @@
   --z-sticky: 100;
   --z-header: 200;
   --z-overlay: 300;
+
+  --drift-duration:   24s;   /* hero image slow drift          */
+  --marquee-duration: 40s;   /* Land · Air · Sea … ticker      */
+
+  /* Flat scrims — a single Graphite layer at fixed opacity. NOT gradients. */
+  --scrim-hero:   0.52;
+  --scrim-card:   0.45;
+  --photo-dim:    0.62;
+  --photo-lit:    0.9;
+  --portrait-filter: grayscale(1) contrast(1.05) brightness(0.92);
 }
 
 /* -----------------------------------------------------------------------------
-   INVERSE SURFACE
-   Put [data-surface="inverse"] on any section that sits on Graphite. Every
-   semantic role flips; components need no dark-specific CSS of their own.
-   The logo component reads this attribute to swap its ink variant.
+   SEMANTIC ROLES
+   Components reference ONLY these, never the ramps above.
+
+   v3 (Oct 2026): the site is DARK-PRIMARY. BaseLayout puts
+   data-surface="inverse" on <html>; a band that should read light (e.g. the
+   Technology section) sets data-surface="light" and every role flips back.
    -------------------------------------------------------------------------- */
+:root,
+[data-surface='light'] {
+  --surface:          var(--brand-off-white);
+  --surface-raised:   #FFFFFF;
+  --surface-sunken:   var(--ink-100);
+  --surface-accent:   var(--steel-050);
+  --surface-inverse:  var(--brand-graphite);
+  --surface-media:    var(--ink-150);
+
+  --ink-strong:       var(--brand-graphite);   /* headings                 */
+  --ink:              var(--brand-graphite);   /* 17.6:1 — headings, body  */
+  --ink-soft:         var(--ink-600);          /*  7.1:1 — supporting copy */
+  --ink-muted:        var(--ink-500);          /*  5.5:1 — captions, meta  */
+  --ink-on-accent:    #FFFFFF;                 /*  6.8:1 on --accent       */
+
+  --accent:           var(--steel-500);
+  --accent-hover:     var(--steel-700);
+  --accent-strong:    var(--steel-500);        /* eyebrow labels           */
+  --accent-quiet:     var(--steel-100);        /* tinted blocks            */
+  --accent-rule:      var(--steel-400);        /* the short brand rule     */
+
+  --line:             var(--ink-200);          /* default hairline         */
+  --line-strong:      var(--ink-300);
+  --line-accent:      var(--steel-200);
+  --line-heavy:       var(--brand-graphite);   /* 2px top rule on lists    */
+  --line-overlay:     rgb(14 16 19 / 0.14);
+
+  --btn-bg:           var(--steel-500);
+  --btn-ink:          #FFFFFF;
+  --btn-bg-hover:     var(--steel-700);
+  --btn-outline:      var(--ink-300);
+  --btn-outline-hover:var(--brand-graphite);
+  --btn-tint:         rgb(14 16 19 / 0.05);
+
+  --header-bg:        rgb(245 246 247 / 0.86);
+  --panel-bg:         rgb(245 246 247 / 0.7);
+  --scrim:            var(--brand-graphite);
+
+  --focus-ring:       var(--steel-500);
+
+  color: var(--ink);
+}
+
+[data-surface='light'] { background-color: var(--surface); }
+
 [data-surface='inverse'] {
   --surface:        var(--brand-graphite);
   --surface-raised: var(--ink-900);
   --surface-sunken: var(--ink-950);
   --surface-accent: var(--steel-950);
+  --surface-media:  var(--ink-900);
 
+  --ink-strong:     var(--brand-off-white); /* 18.1:1 on graphite */
   --ink:            var(--brand-platinum);  /* 11.8:1 on graphite */
+  --ink-soft:       var(--ink-300);         /*  8.6:1 on graphite */
   --ink-muted:      var(--ink-400);         /*  5.0:1 on graphite */
   --ink-on-accent:  var(--brand-graphite);
 
   --accent:         var(--steel-300);       /*  7.3:1 on graphite */
   --accent-hover:   var(--steel-200);
+  --accent-strong:  var(--steel-200);
   --accent-quiet:   var(--steel-900);
   --accent-rule:    var(--steel-300);
 
   --line:           var(--ink-800);
   --line-strong:    var(--ink-700);
   --line-accent:    var(--steel-800);
+  --line-heavy:     var(--brand-off-white);
+  --line-overlay:   rgb(199 204 209 / 0.22);
+
+  --btn-bg:           var(--brand-off-white);
+  --btn-ink:          var(--brand-graphite);
+  --btn-bg-hover:     var(--steel-200);
+  --btn-outline:      rgb(245 246 247 / 0.5);
+  --btn-outline-hover:var(--brand-off-white);
+  --btn-tint:         rgb(245 246 247 / 0.08);
+
+  --header-bg:      rgb(14 16 19 / 0.72);
+  --panel-bg:       rgb(14 16 19 / 0.55);
+  --scrim:          var(--brand-graphite);
 
   --focus-ring:     var(--steel-300);
 
@@ -210,3 +303,4 @@
 /* A quiet tinted band — still a light surface, roles unchanged except ground. */
 [data-surface='accent'] { --surface: var(--surface-accent); background-color: var(--surface); }
 [data-surface='raised'] { --surface: var(--surface-raised); background-color: var(--surface); }
+[data-surface='sunken'] { --surface: var(--surface-sunken); background-color: var(--surface); }

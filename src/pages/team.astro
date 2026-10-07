@@ -1,57 +1,93 @@
 ---
+/**
+ * Team — v3 (Mith_Web_mockup/Team v3). Portraits are monochrome, colour on
+ * hover (D11). Founding team on Graphite, advisors on the sunken tone.
+ */
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Section from '@components/Section.astro';
 import Person from '@components/Person.astro';
 import Cta from '@components/Cta.astro';
-import { team } from '@content/site';
+import { team, ui } from '@content/site';
+
+const groups = [
+  { ...team.founders, kind: 'founders', surface: undefined },
+  { ...team.advisors, kind: 'advisors', surface: 'sunken' },
+] as const;
 ---
 
 <BaseLayout title={team.title} description={team.description}>
-  <section class="hero">
-    <div class="wrap wrap--wide">
-      <span class="rule" aria-hidden="true"></span>
-      <h1>{team.heading}</h1>
+  <section class="band">
+    <div class="wrap team-hero">
+      <p class="label eyebrow">{ui.team}</p>
+      <h1 class="team-hero__heading">{team.description}</h1>
     </div>
   </section>
 
-  <Section heading={team.founders.heading} headingLevel={2}>
-    <ul role="list" class="people">
-      {team.founders.people.map((p) => <Person {...p} />)}
-    </ul>
-  </Section>
-
-  <Section heading={team.advisors.heading} headingLevel={2} surface="accent">
-    <ul role="list" class="people">
-      {team.advisors.people.map((p) => <Person {...p} />)}
-    </ul>
-  </Section>
-
-  <Section width="wide">
-    <p class="statement">{team.closing}</p>
-  </Section>
+  {groups.map((g) => (
+    <section class="band" data-surface={g.surface}>
+      <div class="wrap group">
+        <div class="group__head">
+          <h2 class="group__heading">{g.heading}</h2>
+          <p class="label">{ui.people(g.people.length)}</p>
+        </div>
+        <ul role="list" class:list={['people', `people--${g.kind}`]}>
+          {g.people.map((p) => <Person {...p} />)}
+        </ul>
+      </div>
+    </section>
+  ))}
 
   <Cta />
 </BaseLayout>
 
 <style>
-  .hero { padding-block: clamp(var(--space-2xl), 7vw, var(--space-3xl)); }
-  .hero .rule { margin-bottom: var(--space-md); }
+  .band { border-bottom: var(--border-hair) solid var(--line); }
+
+  .team-hero {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-28), 4vw, var(--space-xl));
+    padding-block: clamp(var(--space-3xl), 12vw, var(--space-176)) clamp(var(--space-2xl), 8vw, var(--space-112));
+  }
+  .team-hero .eyebrow { margin: 0; }
+
+  .team-hero__heading {
+    margin: 0;
+    max-width: 18ch;
+    font-size: var(--text-display-sm);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .group { padding-block: clamp(var(--space-72), 8vw, var(--space-4xl)); }
+
+  .group__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-bottom: clamp(var(--space-40), 5vw, var(--space-2xl));
+  }
+  .group__head .label { margin: 0; }
+
+  .group__heading {
+    margin: 0;
+    font-size: var(--text-group);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-headline);
+  }
 
   .people {
     display: grid;
-    gap: var(--space-xl) var(--space-lg);
-    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    grid-template-columns: 1fr;
+    gap: var(--space-xl) var(--space-20);
     margin: 0;
     padding: 0;
   }
 
-  .statement {
-    margin: 0;
-    font-size: var(--text-2xl);
-    font-weight: var(--weight-bold);
-    line-height: var(--leading-tight);
-    letter-spacing: var(--tracking-display);
-    max-width: 26ch;
-    text-wrap: balance;
-  }
+  /* Founders: 1 → 2 → 3 → one row. Advisors: 1 → 2 → 4. */
+  @media (min-width: 22rem) { .people { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 40rem) { .people--founders { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 56rem) { .people--advisors { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 66rem) { .people--founders { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); } }
 </style>

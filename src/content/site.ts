@@ -20,11 +20,38 @@ export const company = {
   address: '[REGISTERED ADDRESS]',
 };
 
+/** Primary navigation (v3: solution-led — Solutions · Technology · Team). */
 export const nav: NavItem[] = [
-  { label: 'Platform', href: '/platform' },
-  { label: 'Team',     href: '/team' },
-  { label: 'Contact',  href: '/contact' },
+  { label: 'Solutions',  href: '/#solutions' },
+  { label: 'Technology', href: '/#technology' },
+  { label: 'Team',       href: '/team' },
 ];
+
+/** The one call-to-action in the header. `#contact` is the closing band on every page. */
+export const navCta: NavItem = { label: 'Talk to us', href: '#contact' };
+
+/** Short interface labels used by the v3 layout. Not marketing copy. */
+export const ui = {
+  challenge: 'The challenge',
+  solutions: 'Solutions',
+  technology: 'Technology',
+  team: 'Team',
+  company: 'Company',
+  contact: 'Contact',
+  linkedin: 'LinkedIn',
+  exploreSolutions: 'Explore solutions',
+  meetTeam: 'Meet the team',
+  talk: 'Talk to us',
+  skip: 'Skip to content',
+  people: (n: number) => `${String(n).padStart(2, '0')} people`,
+  onLinkedIn: (name: string) => `${name} on LinkedIn (opens in a new tab)`,
+  portraitAlt: (name: string) => `Portrait of ${name}`,
+  imageryNote: 'Imagery: AI-generated, illustrative.',
+};
+
+/** A value still in [BRACKETS] is a placeholder and must not render. */
+export const isSet = (value: string | null | undefined): value is string =>
+  typeof value === 'string' && value.trim() !== '' && !value.trim().startsWith('[');
 
 export const seo = {
   titleTemplate: '%s — Mithril Atomics',
@@ -45,7 +72,12 @@ export const home = {
     'Mithril Atomics brings together quantum sensing, autonomous platforms and AI-driven intelligence into a single capability stack for exploration, inspection, detection and navigation.',
 
   hero: {
+    eyebrow: 'Quantum Field Intelligence Platform',
     heading: 'Unlocking Quantum Intelligence from Invisible Fields',
+    lede: 'Mithril Atomics brings together quantum sensing, autonomous platforms and AI-driven intelligence into a single capability stack for exploration, inspection, detection and navigation.',
+    /** AI-generated still. Set `video` to an MP4 URL to play a loop over it. */
+    image: '/images/hero_drone.jpg',
+    video: null as string | null,
     body: [
       'The world around us is filled with signals we cannot see, hear, or directly perceive.',
       'The Earth’s magnetic field, gravitational field and other physical phenomena continuously carry information about what is happening beneath the surface, around critical infrastructure and across our environment.',
@@ -97,6 +129,38 @@ export const home = {
       },
     ],
   },
+
+  /** v3 "Solutions" band — the four applications, each with an AI-generated image. */
+  solutions: [
+    {
+      key: 'EXPLORE',
+      title: 'Geophysical Exploration',
+      body: "Reveal subtle subsurface signatures to support the exploration and mapping of the Earth's hidden resources and structures.",
+      image: '/images/solutions/sol_explore.jpg',
+      alt: 'Aerial view of a terraced open-pit exploration site',
+    },
+    {
+      key: 'INSPECT',
+      title: 'Structural & Infrastructure NDT',
+      body: 'Sense changes associated with buried, concealed or hard-to-access infrastructure to support non-destructive inspection.',
+      image: '/images/solutions/sol_inspect.jpg',
+      alt: 'Engineer inspecting a highway bridge and pipeline corridor',
+    },
+    {
+      key: 'DETECT',
+      title: 'Threat Detection',
+      body: 'Support the detection and characterisation of concealed objects and threats in complex environments.',
+      image: '/images/solutions/sol_detect.jpg',
+      alt: 'Container port at night with a patrol vehicle',
+    },
+    {
+      key: 'NAVIGATE',
+      title: 'GNSS-Denied Navigation',
+      body: 'Enable new approaches to positioning and navigation by using naturally occurring physical-field signatures where conventional satellite navigation is unavailable or unreliable.',
+      image: '/images/solutions/sol_navigate.jpg',
+      alt: 'Survey aircraft flying through cloud over mountains',
+    },
+  ],
 
   closing: {
     label: 'The Bigger Picture',
@@ -228,7 +292,11 @@ export const cta = {
 export interface Person {
   name: string;
   role: string;
-  bio: string;
+  /** Optional until approved copy exists — an empty bio simply does not render. */
+  bio?: string;
+  /** 4:5 head-and-shoulders JPG (~640×800) in public/images/team/. */
+  photo?: string;
+  linkedin?: string;
 }
 
 export const team = {
@@ -243,18 +311,31 @@ export const team = {
     people: [
       {
         name: 'Devendra Mishra',
+        photo: '/images/team/devendra.jpg',
+        linkedin: 'https://www.linkedin.com/in/devendra-mishra444',
         role: 'Co-Founder & CEO',
         bio: 'Quantum physicist with 6+ years in quantum hardware and sensing. Former Head of Quantum Hardware at Qulabs, where he led India’s first room-temperature Rb-based quantum memory. He leads Mithril’s technology vision and execution.',
       },
       {
         name: 'Rikteem Bhowmick',
+        photo: '/images/team/rikteem.jpg',
+        linkedin: 'https://www.linkedin.com/in/rikteem-bhowmick-aa3050228',
         role: 'Founder & CTO',
         bio: 'IIT Hyderabad alumnus and Institute Silver Medalist with 6+ years in quantum communications and device development. Former Head of Quantum Communications at QAIG, with experience in entanglement systems, QRNGs, quantum networks, and national quantum technology programmes.',
       },
       {
         name: 'Abhijeet Ghodgaonkar',
+        photo: '/images/team/abhijeet.jpg',
+        linkedin: 'https://www.linkedin.com/in/abhijeet-ghodgaonkar-%E0%A4%85%E0%A4%AD%E0%A4%BF%E0%A4%9C%E0%A5%80%E0%A4%A4-%E0%A4%98%E0%A5%8B%E0%A4%A1%E0%A4%97%E0%A4%BE%E0%A4%B5%E0%A4%95%E0%A4%B0-85779957',
         role: 'Lead — Sensor Engineering',
         bio: 'Quantum sensor engineer experienced in NV-diamond magnetometers, space instrumentation, electronics, and embedded systems. His work spans IIT Bombay’s QMET Tech Foundation, the Daksha space mission, and CERN’s CMS experiment.',
+      },
+      {
+        name: 'Vashishtha Kochar',
+        photo: '/images/team/vashishtha.jpg',
+        linkedin: 'https://www.linkedin.com/in/vashishthakochar',
+        role: 'Lead Software Engineering',
+        bio: '', // TODO(founder): approved bio pending — renders nothing while empty
       },
     ] as Person[],
   },
@@ -265,21 +346,29 @@ export const team = {
     people: [
       {
         name: 'Prof. B. S. Murty',
+        photo: '/images/team/murty.jpg',
+        linkedin: 'https://www.linkedin.com/in/bs-murty-78b996290/',
         role: 'Technology Advisor | Director, IIT Hyderabad',
         bio: 'A leading voice in India’s critical minerals ecosystem, with expertise spanning advanced technology, mining, sustainable extraction, and strategic mineral initiatives.',
       },
       {
         name: 'Prof. Sai Santosh Kumar Raavi',
+        photo: '/images/team/raavi.jpg',
+        linkedin: 'https://www.linkedin.com/in/sai-santosh-kumar-raavi-28715882/',
         role: 'Scientific Advisor | IIT Hyderabad',
         bio: 'Professor of Physics specialising in optics and novel materials, with 100+ research publications and international research experience across Japan, the US, and Brazil.',
       },
       {
         name: 'Dr. Niranjan Myneni',
+        photo: '/images/team/myneni.jpg',
+        linkedin: 'https://www.linkedin.com/in/niranjan-myneni-43a141159/',
         role: 'Technology Strategist',
         bio: 'Physicist specialising in ultracold atoms, quantum sensing, and quantum gravimetry, with research experience at Raman Research Institute, Institut d’Optique, and Observatoire de Paris.',
       },
       {
         name: 'Srikrishna Vadrevu',
+        photo: '/images/team/srikrishna.jpg',
+        linkedin: 'https://www.linkedin.com/in/srivadrevu',
         role: 'Finance & Strategy',
         bio: 'Senior global BFSI leader with 45+ years across SBI, GE Capital, Standard Chartered, and HCL. A founder and operator, he advises Mithril on financial strategy, scaling, and global market entry.',
       },

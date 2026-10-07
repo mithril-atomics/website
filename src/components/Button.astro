@@ -1,17 +1,32 @@
 ---
 /**
  * Link or button. No shadows, no gradients, no glow — depth is a hairline.
- * Touch target is >=44px tall in every variant.
+ * Touch target is >=40px (sm) / >=44px (md, lg) tall.
+ *
+ * v3: on the dark ground the solid button is Off-white with Graphite text —
+ * the highest-contrast object on the page. Colours come from the --btn-*
+ * roles, so the same button flips correctly on a light band.
  */
 interface Props {
   href?: string;
   variant?: 'solid' | 'outline' | 'quiet';
+  size?: 'sm' | 'md' | 'lg';
+  /** Trailing arrow icon. */
+  arrow?: boolean;
   type?: 'button' | 'submit' | 'reset';
   class?: string;
   [key: string]: unknown;
 }
 
-const { href, variant = 'solid', type = 'button', class: className, ...rest } = Astro.props;
+const {
+  href,
+  variant = 'solid',
+  size = 'md',
+  arrow = false,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
 const Tag = href ? 'a' : 'button';
 const external = typeof href === 'string' && /^https?:\/\//.test(href);
 ---
@@ -21,10 +36,15 @@ const external = typeof href === 'string' && /^https?:\/\//.test(href);
   type={href ? undefined : type}
   rel={external ? 'noopener noreferrer' : undefined}
   target={external ? '_blank' : undefined}
-  class:list={['btn', `btn--${variant}`, className]}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
   {...rest}
 >
   <slot />
+  {arrow && (
+    <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+    </svg>
+  )}
 </Tag>
 
 <style>
@@ -33,15 +53,13 @@ const external = typeof href === 'string' && /^https?:\/\//.test(href);
     align-items: center;
     justify-content: center;
     gap: var(--space-2xs);
-    min-height: 44px;
-    padding: var(--space-2xs) var(--space-md);
     border: var(--border-hair) solid transparent;
     border-radius: var(--radius-md);
-    font-size: var(--text-base);
     font-weight: var(--weight-medium);
     letter-spacing: var(--tracking-body);
     line-height: 1.2;
     text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
     transition:
       background-color var(--duration-fast) var(--ease),
@@ -49,19 +67,44 @@ const external = typeof href === 'string' && /^https?:\/\//.test(href);
       color var(--duration-fast) var(--ease);
   }
 
-  .btn--solid {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    color: var(--ink-on-accent);
+  .btn--sm { min-height: 40px; padding: 0 var(--space-18); font-size: var(--text-sm); }
+  .btn--md { min-height: 48px; padding: 0 var(--space-md); font-size: var(--text-ui-md); }
+  .btn--lg { min-height: 52px; padding: 0 var(--space-28); font-size: var(--text-ui-lg); gap: var(--space-10); }
+
+  .btn__icon {
+    inline-size: 1.125em;
+    block-size: 1.125em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: none;
   }
-  .btn--solid:hover { background-color: var(--accent-hover); border-color: var(--accent-hover); color: var(--ink-on-accent); }
+
+  .btn--solid {
+    background-color: var(--btn-bg);
+    border-color: var(--btn-bg);
+    color: var(--btn-ink);
+  }
+  .btn--solid:hover {
+    background-color: var(--btn-bg-hover);
+    border-color: var(--btn-bg-hover);
+    color: var(--btn-ink);
+    text-decoration: none;
+  }
 
   .btn--outline {
     background-color: transparent;
-    border-color: var(--line-strong);
-    color: var(--ink);
+    border-color: var(--btn-outline);
+    color: var(--ink-strong);
   }
-  .btn--outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn--outline:hover {
+    border-color: var(--btn-outline-hover);
+    background-color: var(--btn-tint);
+    color: var(--ink-strong);
+    text-decoration: none;
+  }
 
   .btn--quiet {
     background-color: transparent;

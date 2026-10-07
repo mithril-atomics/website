@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Team — Mithril Atomics</title>
+<link rel="icon" href="assets/favicon-32x32.png">
+<style>
+@font-face{font-family:'IBM Plex Sans';src:url('fonts/IBMPlexSans-var.woff2') format('woff2');font-weight:100 700;font-style:normal;font-display:swap}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{background:#0E1013;color:#C7CCD1;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;font-size:clamp(1rem,0.98rem + 0.10vw,1.0625rem);line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+h1,h2,h3,p,ul,ol,li{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+a{color:#7AA5C7;text-underline-offset:0.18em;text-decoration-thickness:1px}
+a:hover{color:#B0C9DE;text-decoration-thickness:2px}
+:focus-visible{outline:2px solid #7AA5C7;outline-offset:3px;border-radius:2px}
+::selection{background:#20384B;color:#F5F6F7}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Team v3" style="min-height:100vh;display:flex;flex-direction:column;background:#0E1013">
+
+<header style="position:sticky;top:0;z-index:200;background:rgba(14,16,19,0.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(199,204,209,0.12)">
+  <div style="max-width:90rem;margin:0 auto;padding:8px clamp(16px,4vw,56px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 32px;min-height:72px">
+    <a href="Home v3.dc.html" aria-label="Mithril Atomics — home" style="display:inline-flex;text-decoration:none"><img src="assets/logo/Dark_BG_Coloured.svg" alt="" style="height:44px;width:77px"></a>
+    <nav aria-label="Primary" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px clamp(16px,2.5vw,36px)">
+      <a href="Home v3.dc.html#solutions" style="display:inline-flex;align-items:center;min-height:44px;color:#C7CCD1;font-size:14px;font-weight:500;text-decoration:none" style-hover="color:#F5F6F7">Solutions</a>
+      <a href="Home v3.dc.html#technology" style="display:inline-flex;align-items:center;min-height:44px;color:#C7CCD1;font-size:14px;font-weight:500;text-decoration:none" style-hover="color:#F5F6F7">Technology</a>
+      <a href="Team v3.dc.html" aria-current="page" style="display:inline-flex;align-items:center;min-height:44px;color:#F5F6F7;font-size:14px;font-weight:500;text-decoration:none;border-bottom:2px solid #7AA5C7">Team</a>
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 18px;background:#F5F6F7;border-radius:3px;color:#0E1013;font-size:14px;font-weight:500;text-decoration:none;transition:background-color 120ms" style-hover="background:#B0C9DE;color:#0E1013">Talk to us
+        <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main style="flex:1 0 auto">
+
+<section data-screen-label="Team hero" style="border-bottom:1px solid #25292D">
+  <div style="max-width:90rem;margin:0 auto;padding:clamp(96px,12vw,176px) clamp(16px,4vw,56px) clamp(64px,8vw,112px);display:flex;flex-direction:column;gap:clamp(28px,4vw,48px)">
+    <p style="display:flex;align-items:center;gap:12px;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#B0C9DE"><span style="display:block;width:8px;height:8px;background:#7AA5C7"></span>Team</p>
+    <h1 style="font-size:clamp(2.5rem,1.3rem + 4.4vw,5.5rem);font-weight:500;line-height:1;letter-spacing:-0.035em;max-width:18ch;color:#F5F6F7;text-wrap:balance">A multidisciplinary team building India’s quantum sensing infrastructure — for the world.</h1>
+  </div>
+</section>
+
+<section data-screen-label="Founding team" style="border-bottom:1px solid #25292D">
+  <div style="max-width:90rem;margin:0 auto;padding:clamp(72px,8vw,128px) clamp(16px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:clamp(40px,5vw,64px)">
+      <h2 style="font-size:clamp(2rem,1.4rem + 2.2vw,3.25rem);font-weight:500;line-height:1.05;letter-spacing:-0.03em;color:#F5F6F7">Founding Team</h2>
+      <p style="font-size:13px;font-weight:500;letter-spacing:0.12em;color:#7AA5C7">{{ founderCount }}</p>
+    </div>
+    <ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(20%,(66rem - 100%) * 999,clamp(33.333%,(40rem - 100%) * 999,clamp(50%,(22rem - 100%) * 999,100%))),1fr));row-gap:48px;margin:0 -10px">
+      <sc-for list="{{ founders }}" as="p" hint-placeholder-count="5">
+        <li style="display:flex;flex-direction:column;gap:16px;padding:0 10px">
+          <div style="position:relative;overflow:hidden;aspect-ratio:4 / 5;background:#17191C;border-radius:2px"><img src="{{ p.photo }}" alt="{{ p.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:{{ portraitFilter }};transition:filter 360ms" style-hover="filter:grayscale(0) contrast(1) brightness(1)"></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h3 style="font-size:clamp(1.125rem,1.05rem + 0.3vw,1.3125rem);font-weight:500;line-height:1.25;letter-spacing:-0.01em;color:#F5F6F7">{{ p.name }}</h3>
+            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#7AA5C7;line-height:1.4">{{ p.role }}</p>
+          </div>
+          <sc-if value="{{ p.bio }}" hint-placeholder-val="{{ true }}"><p style="font-size:14px;line-height:1.65;color:#A5ADB6;text-wrap:pretty">{{ p.bio }}</p></sc-if>
+          <a href="{{ p.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ p.linkedinLabel }}" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #3B4249;border-radius:3px;color:#F5F6F7;font-size:14px;font-weight:500;text-decoration:none;transition:border-color 120ms,background-color 120ms" style-hover="border-color:#7AA5C7;background:rgba(122,165,199,0.08);color:#F5F6F7">
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+          </a>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+
+<section data-screen-label="Advisors" style="border-bottom:1px solid #25292D;background:#0D0E0F">
+  <div style="max-width:90rem;margin:0 auto;padding:clamp(72px,8vw,128px) clamp(16px,4vw,56px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:clamp(40px,5vw,64px)">
+      <h2 style="font-size:clamp(2rem,1.4rem + 2.2vw,3.25rem);font-weight:500;line-height:1.05;letter-spacing:-0.03em;color:#F5F6F7">Advisors</h2>
+      <p style="font-size:13px;font-weight:500;letter-spacing:0.12em;color:#7AA5C7">{{ advisorCount }}</p>
+    </div>
+    <ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(25%,(56rem - 100%) * 999,clamp(50%,(22rem - 100%) * 999,100%)),1fr));row-gap:48px;margin:0 -10px">
+      <sc-for list="{{ advisors }}" as="p" hint-placeholder-count="4">
+        <li style="display:flex;flex-direction:column;gap:16px;padding:0 10px">
+          <div style="position:relative;overflow:hidden;aspect-ratio:4 / 5;background:#17191C;border-radius:2px"><img src="{{ p.photo }}" alt="{{ p.alt }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:{{ portraitFilter }};transition:filter 360ms" style-hover="filter:grayscale(0) contrast(1) brightness(1)"></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h3 style="font-size:clamp(1.125rem,1.05rem + 0.3vw,1.3125rem);font-weight:500;line-height:1.25;letter-spacing:-0.01em;color:#F5F6F7">{{ p.name }}</h3>
+            <p style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#7AA5C7;line-height:1.4">{{ p.role }}</p>
+          </div>
+          <sc-if value="{{ p.bio }}" hint-placeholder-val="{{ true }}"><p style="font-size:14px;line-height:1.65;color:#A5ADB6;text-wrap:pretty">{{ p.bio }}</p></sc-if>
+          <a href="{{ p.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="{{ p.linkedinLabel }}" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid #3B4249;border-radius:3px;color:#F5F6F7;font-size:14px;font-weight:500;text-decoration:none;transition:border-color 120ms,background-color 120ms" style-hover="border-color:#7AA5C7;background:rgba(122,165,199,0.08);color:#F5F6F7">
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+          </a>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="background:#0E1013;scroll-margin-top:72px">
+  <div style="max-width:90rem;margin:0 auto;padding:clamp(96px,12vw,176px) clamp(16px,4vw,56px);display:flex;flex-direction:column;gap:clamp(40px,5vw,64px)">
+    <h2 style="font-size:clamp(2.5rem,1.3rem + 4.4vw,5.5rem);font-weight:500;line-height:1;letter-spacing:-0.035em;max-width:14ch;color:#F5F6F7;text-wrap:balance">The Invisible Is Full of Information.</h2>
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px 48px;padding-top:28px;border-top:1px solid #25292D">
+      <p style="max-width:56ch;color:#A5ADB6;line-height:1.65;text-wrap:pretty">Whether you are exploring the Earth, protecting critical infrastructure, solving a difficult sensing problem or building the next generation of autonomous systems — we would like to hear from you.</p>
+      <a href="mailto:info@mithrilatomics.com" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;background:#F5F6F7;border-radius:3px;color:#0E1013;font-size:16px;font-weight:500;text-decoration:none;transition:background-color 120ms" style-hover="background:#B0C9DE;color:#0E1013">Talk to us
+        <svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:#0D0E0F;color:#C7CCD1;border-top:1px solid #25292D">
+  <div style="max-width:90rem;margin:0 auto;padding:56px clamp(16px,4vw,56px) 40px;display:grid;gap:40px;grid-template-columns:repeat(auto-fit,minmax(min(14rem,100%),1fr))">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <img src="assets/logo/Dark_BG_Coloured.svg" alt="Mithril Atomics" style="height:48px;width:84px">
+      <p style="font-size:13px;line-height:1.6;color:#788491;max-width:28ch">Unlocking Quantum Intelligence from Invisible Fields.</p>
+    </div>
+    <nav aria-label="Footer" style="display:flex;flex-direction:column;gap:8px">
+      <p style="font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#7AA5C7;margin-bottom:4px">Company</p>
+      <a href="Home v3.dc.html#solutions" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">Solutions</a>
+      <a href="Home v3.dc.html#technology" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">Technology</a>
+      <a href="Team v3.dc.html" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">Team</a>
+      <a href="#contact" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">Contact</a>
+    </nav>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <p style="font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#7AA5C7;margin-bottom:4px">Contact</p>
+      <a href="mailto:info@mithrilatomics.com" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">info@mithrilatomics.com</a>
+      <a href="#" style="color:#C7CCD1;text-decoration:none;font-size:14px" style-hover="color:#F5F6F7;text-decoration:underline">LinkedIn</a>
+    </div>
+  </div>
+  <div style="max-width:90rem;margin:0 auto;border-top:1px solid #25292D;padding:20px clamp(16px,4vw,56px)">
+    <p style="font-size:13px;color:#788491">© 2026 Mithril Atomics Pvt. Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showBios&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;portraits&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Monochrome, colour on hover&quot;,&quot;Natural colour&quot;],&quot;default&quot;:&quot;Monochrome, colour on hover&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Imagery&quot;}}">
+class Component extends DCLogic {
+  state = { data: null, error: false };
+  componentDidMount() {
+    fetch('team.json', { cache: 'no-store' }).then((r) => r.json()).then((data) => this.setState({ data })).catch(() => this.setState({ error: true }));
+  }
+  renderVals() {
+    const d = this.state.data || { founders: [], advisors: [] };
+    const showBios = this.props.showBios ?? true;
+    const map = (list) => (list || []).filter((p) => !p.hidden).map((p) => ({
+      ...p, alt: 'Portrait of ' + p.name, linkedinLabel: p.name + ' on LinkedIn (opens in a new tab)', bio: showBios ? (p.bio || '') : '',
+    }));
+    const founders = map(d.founders), advisors = map(d.advisors);
+    const portraitFilter = (this.props.portraits ?? 'Monochrome, colour on hover') === 'Natural colour' ? 'none' : 'grayscale(1) contrast(1.05) brightness(0.92)';
+    return { founders, advisors, founderCount: String(founders.length).padStart(2, '0') + ' PEOPLE', advisorCount: String(advisors.length).padStart(2, '0') + ' PEOPLE', portraitFilter };
+  }
+}
+</script>
+</body>
+</html>
